@@ -1,5 +1,6 @@
 # directories
-.build
+.gradle
+build
 gradle
 
 # files
