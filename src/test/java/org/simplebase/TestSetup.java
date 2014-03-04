@@ -53,16 +53,19 @@ public class TestSetup {
 
         HBaseAdmin admin = new HBaseAdmin(config);
 
-        if (!admin.tableExists(TEST_TABLE)) {
-            HTableDescriptor tableDescriptor   = new HTableDescriptor(TEST_TABLE);
-            HColumnDescriptor columnDescriptor = new HColumnDescriptor(TEST_FAMILY);
-
-            columnDescriptor.setMaxVersions(1);
-            columnDescriptor.setMinVersions(1);
-            tableDescriptor.addFamily(columnDescriptor);
-
-            admin.createTable(tableDescriptor);
+        if (admin.tableExists(TEST_TABLE)) {
+            admin.disableTable(TEST_TABLE);
+            admin.deleteTable(TEST_TABLE);
         }
+
+        HTableDescriptor tableDescriptor   = new HTableDescriptor(TEST_TABLE);
+        HColumnDescriptor columnDescriptor = new HColumnDescriptor(TEST_FAMILY);
+
+        columnDescriptor.setMaxVersions(1);
+        columnDescriptor.setMinVersions(1);
+        tableDescriptor.addFamily(columnDescriptor);
+
+        admin.createTable(tableDescriptor);
 
         HTable table = new HTable(config, TEST_TABLE);
 
