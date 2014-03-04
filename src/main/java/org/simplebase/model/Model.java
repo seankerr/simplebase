@@ -134,6 +134,7 @@ public class Model {
 
         byte[] value = result.getValue(family, qualifier);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Boolean) Bytes.toBoolean(value) : defaultValue;
     }
 
@@ -210,6 +211,7 @@ public class Model {
 
         byte[] value = result.getValue(family, qualifier);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Double) Bytes.toDouble(value) : defaultValue;
     }
 
@@ -248,6 +250,7 @@ public class Model {
 
         byte[] value = result.getValue(family, qualifier);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Float) Bytes.toFloat(value) : defaultValue;
     }
 
@@ -286,6 +289,7 @@ public class Model {
 
         byte[] value = result.getValue(family, qualifier);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Integer) Bytes.toInt(value) : defaultValue;
     }
 
@@ -324,6 +328,7 @@ public class Model {
 
         byte[] value = result.getValue(family, qualifier);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Long) Bytes.toLong(value) : defaultValue;
     }
 
@@ -369,6 +374,7 @@ public class Model {
 
         byte[] value = result.getValue(family, qualifier);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Short) Bytes.toShort(value) : defaultValue;
     }
 
@@ -1156,6 +1162,7 @@ public class Model {
 
         String value = getString(family, qualifier, null);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Boolean) Boolean.parseBoolean(value) : defaultValue;
     }
 
@@ -1194,6 +1201,7 @@ public class Model {
 
         String value = getString(family, qualifier, null);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Double) Double.parseDouble(value) : defaultValue;
     }
 
@@ -1232,6 +1240,7 @@ public class Model {
 
         String value = getString(family, qualifier, null);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Float) Float.parseFloat(value) : defaultValue;
     }
 
@@ -1270,6 +1279,7 @@ public class Model {
 
         String value = getString(family, qualifier, null);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Integer) Integer.parseInt(value) : defaultValue;
     }
 
@@ -1308,6 +1318,7 @@ public class Model {
 
         String value = getString(family, qualifier, null);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Long) Long.parseLong(value) : defaultValue;
     }
 
@@ -1346,6 +1357,7 @@ public class Model {
 
         String value = getString(family, qualifier, null);
 
+        // the cast avoids an ugly auto-boxing bug when defaultValue is null
         return value != null ? (Short) Short.parseShort(value) : defaultValue;
     }
 
