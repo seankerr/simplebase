@@ -173,7 +173,7 @@ public abstract class Writer {
     throws InterruptedException, IOException;
 
     /**
-     * Write a binary boolean value.
+     * Write a binary boolean.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -190,7 +190,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary boolean value.
+     * Write a binary boolean.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -206,7 +206,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string boolean value.
+     * Write a string boolean.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -223,7 +223,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string boolean value.
+     * Write a string boolean.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -239,7 +239,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a byte array value.
+     * Write a byte array.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -256,7 +256,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a byte array value.
+     * Write a byte array.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -275,7 +275,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary double value.
+     * Write a binary double.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -292,7 +292,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary double value.
+     * Write a binary double.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -308,7 +308,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string double value.
+     * Write a string double.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -325,7 +325,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string double value.
+     * Write a string double.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -341,7 +341,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary float value.
+     * Write a binary float.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -358,7 +358,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary float value.
+     * Write a binary float.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -374,7 +374,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string float value.
+     * Write a string float.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -391,7 +391,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string float value.
+     * Write a string float.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -407,7 +407,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary int value.
+     * Write a binary int.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -424,7 +424,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary int value.
+     * Write a binary int.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -440,7 +440,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string int value.
+     * Write a string int.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -457,7 +457,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string int value.
+     * Write a string int.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -473,7 +473,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary long value.
+     * Write a binary long.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -490,7 +490,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary long value.
+     * Write a binary long.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -506,7 +506,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string long value.
+     * Write a string long.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -523,7 +523,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string long value.
+     * Write a string long.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -539,7 +539,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary short value.
+     * Write a binary short.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -556,7 +556,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary short value.
+     * Write a binary short.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -572,7 +572,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string short value.
+     * Write a string short.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -589,7 +589,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string short value.
+     * Write a string short.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
@@ -605,7 +605,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string value.
+     * Write a string.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -622,7 +622,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a string value.
+     * Write a string.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
