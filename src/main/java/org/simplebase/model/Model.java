@@ -35,6 +35,15 @@ import org.apache.hadoop.hbase.util.Bytes;
  * @author Sean Kerr [sean@code-box.org]
  */
 public class Model {
+    /** The equality comparison. */
+    public static final CompareOp COMPARE_EQ = CompareOp.EQ;
+
+    /** The greater than comparison. */
+    public static final CompareOp COMPARE_GT = CompareOp.GT;
+
+    /** The less than comparison. */
+    public static final CompareOp COMPARE_LT = CompareOp.LT;
+
     /** The nonexistent column error message. */
     private static final String ERR_NONEXISTENT_COLUMN = "Nonexistent column: '%s:%s'";
 
@@ -60,6 +69,456 @@ public class Model {
              : "result == null";
 
         setResult(result);
+    }
+
+    /**
+     * Compare two binary double columns, or throw an exception if either is null.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param operation  The comparison operation.
+     * @param qualifier1 The first qualifier.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareDouble (CompareOp operation, byte[] qualifier1, byte[] qualifier2)
+    throws ModelException {
+        return compareDouble(operation, family, qualifier1, family, qualifier2);
+    }
+
+    /**
+     * Compare two binary double columns, or throw an exception if either is null.
+     *
+     * @param operation  The comparison operation.
+     * @param family1    The first column family.
+     * @param qualifier1 The first qualifier.
+     * @param family2    The second column family.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareDouble (CompareOp operation, byte[] family1, byte[] qualifier1, byte[] family2,
+                                  byte[] qualifier2)
+    throws ModelException {
+        assert operation != null && family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
+             : "operation == null || family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
+
+        switch (operation) {
+            case EQ:
+                return (double) getDouble(family1, qualifier1) == (double) getDouble(family2, qualifier2);
+            case LT:
+                return (double) getDouble(family1, qualifier1) < (double) getDouble(family2, qualifier2);
+            default:
+                return (double) getDouble(family1, qualifier1) > (double) getDouble(family2, qualifier2);
+        }
+    }
+
+    /**
+     * Compare two string double columns, or throw an exception if either is null.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param operation  The comparison operation.
+     * @param qualifier1 The first qualifier.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareDoubleS (CompareOp operation, byte[] qualifier1, byte[] qualifier2)
+    throws ModelException {
+        return compareDoubleS(operation, family, qualifier1, family, qualifier2);
+    }
+
+    /**
+     * Compare two string double columns, or throw an exception if either is null.
+     *
+     * @param operation  The comparison operation.
+     * @param family1    The first column family.
+     * @param qualifier1 The first qualifier.
+     * @param family2    The second column family.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareDoubleS (CompareOp operation, byte[] family1, byte[] qualifier1, byte[] family2,
+                                   byte[] qualifier2)
+    throws ModelException {
+        assert operation != null && family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
+             : "operation == null || family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
+
+        switch (operation) {
+            case EQ:
+                return (double) parseDouble(family1, qualifier1) == (double) parseDouble(family2, qualifier2);
+            case LT:
+                return (double) parseDouble(family1, qualifier1) < (double) parseDouble(family2, qualifier2);
+            default:
+                return (double) parseDouble(family1, qualifier1) > (double) parseDouble(family2, qualifier2);
+        }
+    }
+
+    /**
+     * Compare two binary float columns, or throw an exception if either is null.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param operation  The comparison operation.
+     * @param qualifier1 The first qualifier.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareFloat (CompareOp operation, byte[] qualifier1, byte[] qualifier2)
+    throws ModelException {
+        return compareFloat(operation, family, qualifier1, family, qualifier2);
+    }
+
+    /**
+     * Compare two binary float columns, or throw an exception if either is null.
+     *
+     * @param operation  The comparison operation.
+     * @param family1    The first column family.
+     * @param qualifier1 The first qualifier.
+     * @param family2    The second column family.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareFloat (CompareOp operation, byte[] family1, byte[] qualifier1, byte[] family2,
+                                 byte[] qualifier2)
+    throws ModelException {
+        assert operation != null && family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
+             : "operation == null || family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
+
+        switch (operation) {
+            case EQ:
+                return (float) getFloat(family1, qualifier1) == (float) getFloat(family2, qualifier2);
+            case LT:
+                return (float) getFloat(family1, qualifier1) < (float) getFloat(family2, qualifier2);
+            default:
+                return (float) getFloat(family1, qualifier1) > (float) getFloat(family2, qualifier2);
+        }
+    }
+
+    /**
+     * Compare two string float columns, or throw an exception if either is null.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param operation  The comparison operation.
+     * @param qualifier1 The first qualifier.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareFloatS (CompareOp operation, byte[] qualifier1, byte[] qualifier2)
+    throws ModelException {
+        return compareFloatS(operation, family, qualifier1, family, qualifier2);
+    }
+
+    /**
+     * Compare two string float columns, or throw an exception if either is null.
+     *
+     * @param operation  The comparison operation.
+     * @param family1    The first column family.
+     * @param qualifier1 The first qualifier.
+     * @param family2    The second column family.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareFloatS (CompareOp operation, byte[] family1, byte[] qualifier1, byte[] family2,
+                                  byte[] qualifier2)
+    throws ModelException {
+        assert operation != null && family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
+             : "operation == null || family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
+
+        switch (operation) {
+            case EQ:
+                return (float) parseFloat(family1, qualifier1) == (float) parseFloat(family2, qualifier2);
+            case LT:
+                return (float) parseFloat(family1, qualifier1) < (float) parseFloat(family2, qualifier2);
+            default:
+                return (float) parseFloat(family1, qualifier1) > (float) parseFloat(family2, qualifier2);
+        }
+    }
+
+    /**
+     * Compare two binary int columns, or throw an exception if either is null.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param operation  The comparison operation.
+     * @param qualifier1 The first qualifier.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareInt (CompareOp operation, byte[] qualifier1, byte[] qualifier2)
+    throws ModelException {
+        return compareInt(operation, family, qualifier1, family, qualifier2);
+    }
+
+    /**
+     * Compare two binary int columns, or throw an exception if either is null.
+     *
+     * @param operation  The comparison operation.
+     * @param family1    The first column family.
+     * @param qualifier1 The first qualifier.
+     * @param family2    The second column family.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareInt (CompareOp operation, byte[] family1, byte[] qualifier1, byte[] family2,
+                               byte[] qualifier2)
+    throws ModelException {
+        assert operation != null && family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
+             : "operation == null || family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
+
+        switch (operation) {
+            case EQ:
+                return getInt(family1, qualifier1) == getInt(family2, qualifier2);
+            case LT:
+                return getInt(family1, qualifier1) < getInt(family2, qualifier2);
+            default:
+                return getInt(family1, qualifier1) > getInt(family2, qualifier2);
+        }
+    }
+
+    /**
+     * Compare two string int columns, or throw an exception if either is null.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param operation  The comparison operation.
+     * @param qualifier1 The first qualifier.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareIntS (CompareOp operation, byte[] qualifier1, byte[] qualifier2)
+    throws ModelException {
+        return compareIntS(operation, family, qualifier1, family, qualifier2);
+    }
+
+    /**
+     * Compare two string int columns, or throw an exception if either is null.
+     *
+     * @param operation  The comparison operation.
+     * @param family1    The first column family.
+     * @param qualifier1 The first qualifier.
+     * @param family2    The second column family.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareIntS (CompareOp operation, byte[] family1, byte[] qualifier1, byte[] family2,
+                                byte[] qualifier2)
+    throws ModelException {
+        assert operation != null && family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
+             : "operation == null || family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
+
+        switch (operation) {
+            case EQ:
+                return parseInt(family1, qualifier1) == parseInt(family2, qualifier2);
+            case LT:
+                return parseInt(family1, qualifier1) < parseInt(family2, qualifier2);
+            default:
+                return parseInt(family1, qualifier1) > parseInt(family2, qualifier2);
+        }
+    }
+
+    /**
+     * Compare two binary long columns, or throw an exception if either is null.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param operation  The comparison operation.
+     * @param qualifier1 The first qualifier.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareLong (CompareOp operation, byte[] qualifier1, byte[] qualifier2)
+    throws ModelException {
+        return compareLong(operation, family, qualifier1, family, qualifier2);
+    }
+
+    /**
+     * Compare two binary long columns, or throw an exception if either is null.
+     *
+     * @param operation  The comparison operation.
+     * @param family1    The first column family.
+     * @param qualifier1 The first qualifier.
+     * @param family2    The second column family.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareLong (CompareOp operation, byte[] family1, byte[] qualifier1, byte[] family2,
+                                byte[] qualifier2)
+    throws ModelException {
+        assert operation != null && family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
+             : "operation == null || family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
+
+        switch (operation) {
+            case EQ:
+                return getLong(family1, qualifier1) == getLong(family2, qualifier2);
+            case LT:
+                return getLong(family1, qualifier1) < getLong(family2, qualifier2);
+            default:
+                return getLong(family1, qualifier1) > getLong(family2, qualifier2);
+        }
+    }
+
+    /**
+     * Compare two string long columns, or throw an exception if either is null.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param operation  The comparison operation.
+     * @param qualifier1 The first qualifier.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareLongS (CompareOp operation, byte[] qualifier1, byte[] qualifier2)
+    throws ModelException {
+        return compareLongS(operation, family, qualifier1, family, qualifier2);
+    }
+
+    /**
+     * Compare two string long columns, or throw an exception if either is null.
+     *
+     * @param operation  The comparison operation.
+     * @param family1    The first column family.
+     * @param qualifier1 The first qualifier.
+     * @param family2    The second column family.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareLongS (CompareOp operation, byte[] family1, byte[] qualifier1, byte[] family2,
+                                 byte[] qualifier2)
+    throws ModelException {
+        assert operation != null && family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
+             : "operation == null || family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
+
+        switch (operation) {
+            case EQ:
+                return parseLong(family1, qualifier1) == parseLong(family2, qualifier2);
+            case LT:
+                return parseLong(family1, qualifier1) < parseLong(family2, qualifier2);
+            default:
+                return parseLong(family1, qualifier1) > parseLong(family2, qualifier2);
+        }
+    }
+
+    /**
+     * Compare two binary short columns, or throw an exception if either is null.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param operation  The comparison operation.
+     * @param qualifier1 The first qualifier.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareShort (CompareOp operation, byte[] qualifier1, byte[] qualifier2)
+    throws ModelException {
+        return compareShort(operation, family, qualifier1, family, qualifier2);
+    }
+
+    /**
+     * Compare two binary short columns, or throw an exception if either is null.
+     *
+     * @param operation  The comparison operation.
+     * @param family1    The first column family.
+     * @param qualifier1 The first qualifier.
+     * @param family2    The second column family.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareShort (CompareOp operation, byte[] family1, byte[] qualifier1, byte[] family2,
+                                byte[] qualifier2)
+    throws ModelException {
+        assert operation != null && family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
+             : "operation == null || family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
+
+        switch (operation) {
+            case EQ:
+                return getShort(family1, qualifier1) == getShort(family2, qualifier2);
+            case LT:
+                return getShort(family1, qualifier1) < getShort(family2, qualifier2);
+            default:
+                return getShort(family1, qualifier1) > getShort(family2, qualifier2);
+        }
+    }
+
+    /**
+     * Compare two string short columns, or throw an exception if either is null.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param operation  The comparison operation.
+     * @param qualifier1 The first qualifier.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareShortS (CompareOp operation, byte[] qualifier1, byte[] qualifier2)
+    throws ModelException {
+        return compareShortS(operation, family, qualifier1, family, qualifier2);
+    }
+
+    /**
+     * Compare two string short columns, or throw an exception if either is null.
+     *
+     * @param operation  The comparison operation.
+     * @param family1    The first column family.
+     * @param qualifier1 The first qualifier.
+     * @param family2    The second column family.
+     * @param qualifier2 The second qualifier.
+     *
+     * @throws ModelException If either column is nonexistent.
+     */
+    public boolean compareShortS (CompareOp operation, byte[] family1, byte[] qualifier1, byte[] family2,
+                                 byte[] qualifier2)
+    throws ModelException {
+        assert operation != null && family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
+             : "operation == null || family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
+
+        switch (operation) {
+            case EQ:
+                return parseShort(family1, qualifier1) == parseShort(family2, qualifier2);
+            case LT:
+                return parseShort(family1, qualifier1) < parseShort(family2, qualifier2);
+            default:
+                return parseShort(family1, qualifier1) > parseShort(family2, qualifier2);
+        }
     }
 
     /**
@@ -771,203 +1230,7 @@ public class Model {
     }
 
     /**
-     * Compare two binary double columns to see if the first column is greater than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleGreater (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isDoubleGreater(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary double columns to see if the first column is greater than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleGreater (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isDoubleGreater(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary double columns to see if the first column is greater than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleGreater (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return getDouble(family1, qualifier1) > getDouble(family2, qualifier2);
-    }
-
-    /**
-     * Compare two binary double columns to see if the first column is less than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleLesser (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isDoubleLesser(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary double columns to see if the first column is less than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleLesser (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isDoubleLesser(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary double columns to see if the first column is less than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleLesser (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return getDouble(family1, qualifier1) < getDouble(family2, qualifier2);
-    }
-
-    /**
-     * Compare two string double columns to see if the first column is greater than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleGreaterS (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isDoubleGreaterS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string double columns to see if the first column is greater than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleGreaterS (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isDoubleGreaterS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string double columns to see if the first column is greater than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleGreaterS (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return parseDouble(family1, qualifier1) > parseDouble(family2, qualifier2);
-    }
-
-    /**
-     * Compare two string double columns to see if the first column is less than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleLesserS (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isDoubleLesserS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string double columns to see if the first column is less than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleLesserS (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isDoubleLesserS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string double columns to see if the first column is less than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isDoubleLesserS (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return parseDouble(family1, qualifier1) < parseDouble(family2, qualifier2);
-    }
-
-    /**
-     * Compare two columns for equality.
+     * Compare two columns byte-for-byte.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -984,21 +1247,7 @@ public class Model {
     }
 
     /**
-     * Compare two columns for equality.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isEqual (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isEqual(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two columns for equality.
+     * Compare two columns byte-for-byte.
      *
      * @param family1    The first column family.
      * @param qualifier1 The first qualifier.
@@ -1013,790 +1262,6 @@ public class Model {
              : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
 
         return Arrays.equals(getBytes(family1, qualifier1), getBytes(family2, qualifier2));
-    }
-
-    /**
-     * Compare two binary float columns to see if the first column is greater than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatGreater (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isFloatGreater(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary float columns to see if the first column is greater than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatGreater (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isFloatGreater(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary float columns to see if the first column is greater than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatGreater (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return getFloat(family1, qualifier1) > getFloat(family2, qualifier2);
-    }
-
-    /**
-     * Compare two binary float columns to see if the first column is less than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatLesser (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isFloatLesser(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary float columns to see if the first column is less than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatLesser (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isFloatLesser(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary float columns to see if the first column is less than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatLesser (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return getFloat(family1, qualifier1) < getFloat(family2, qualifier2);
-    }
-
-    /**
-     * Compare two string float columns to see if the first column is greater than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatGreaterS (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isFloatGreaterS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string float columns to see if the first column is greater than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatGreaterS (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isFloatGreaterS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string float columns to see if the first column is greater than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatGreaterS (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return parseFloat(family1, qualifier1) > parseFloat(family2, qualifier2);
-    }
-
-    /**
-     * Compare two string float columns to see if the first column is less than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatLesserS (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isFloatLesserS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string float columns to see if the first column is less than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatLesserS (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isFloatLesserS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string float columns to see if the first column is less than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isFloatLesserS (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return parseFloat(family1, qualifier1) < parseFloat(family2, qualifier2);
-    }
-
-    /**
-     * Compare two binary int columns to see if the first column is greater than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntGreater (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isIntGreater(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary int columns to see if the first column is greater than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntGreater (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isIntGreater(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary int columns to see if the first column is greater than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntGreater (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return getInt(family1, qualifier1) > getInt(family2, qualifier2);
-    }
-
-    /**
-     * Compare two binary int columns to see if the first column is less than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntLesser (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isIntLesser(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary int columns to see if the first column is less than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntLesser (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isIntLesser(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary int columns to see if the first column is less than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntLesser (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return getInt(family1, qualifier1) < getInt(family2, qualifier2);
-    }
-
-    /**
-     * Compare two string int columns to see if the first column is greater than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntGreaterS (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isIntGreaterS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string int columns to see if the first column is greater than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntGreaterS (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isIntGreaterS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string int columns to see if the first column is greater than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntGreaterS (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return parseInt(family1, qualifier1) > parseInt(family2, qualifier2);
-    }
-
-    /**
-     * Compare two string int string columns to see if the first column is less than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntLesserS (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isIntLesserS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string int string columns to see if the first column is less than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntLesserS (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isIntLesserS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string int string columns to see if the first column is less than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isIntLesserS (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return parseInt(family1, qualifier1) < parseInt(family2, qualifier2);
-    }
-
-    /**
-     * Compare two binary long columns to see if the first column is greater than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongGreater (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isLongGreater(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary long columns to see if the first column is greater than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongGreater (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isLongGreater(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary long columns to see if the first column is greater than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongGreater (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return getLong(family1, qualifier1) > getLong(family2, qualifier2);
-    }
-
-    /**
-     * Compare two binary long columns to see if the first column is less than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongLesser (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isLongLesser(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary long columns to see if the first column is less than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongLesser (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isLongLesser(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary long columns to see if the first column is less than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongLesser (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return getLong(family1, qualifier1) < getLong(family2, qualifier2);
-    }
-
-    /**
-     * Compare two string long columns to see if the first column is greater than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongGreaterS (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isLongGreaterS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string long columns to see if the first column is greater than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongGreaterS (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isLongGreaterS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string long columns to see if the first column is greater than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongGreaterS (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return parseLong(family1, qualifier1) > parseLong(family2, qualifier2);
-    }
-
-    /**
-     * Compare two string long columns to see if the first column is less than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongLesserS (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isLongLesserS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string long columns to see if the first column is less than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongLesserS (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isLongLesserS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string long columns to see if the first column is less than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isLongLesserS (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return parseLong(family1, qualifier1) < parseLong(family2, qualifier2);
-    }
-
-    /**
-     * Compare two binary short columns to see if the first column is greater than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortGreater (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isShortGreater(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary short columns to see if the first column is greater than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortGreater (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isShortGreater(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary short columns to see if the first column is greater than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortGreater (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return getShort(family1, qualifier1) > getShort(family2, qualifier2);
-    }
-
-    /**
-     * Compare two binary short columns to see if the first column is less than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortLesser (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isShortLesser(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary short columns to see if the first column is less than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortLesser (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isShortLesser(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two binary short columns to see if the first column is less than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortLesser (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return getShort(family1, qualifier1) < getShort(family2, qualifier2);
-    }
-
-    /**
-     * Compare two string short columns to see if the first column is greater than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortGreaterS (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isShortGreaterS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string short columns to see if the first column is greater than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortGreaterS (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isShortGreaterS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string short columns to see if the first column is greater than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortGreaterS (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return parseShort(family1, qualifier1) > parseShort(family2, qualifier2);
-    }
-
-    /**
-     * Compare two string short columns to see if the first column is less than the second column.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortLesserS (byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isShortLesserS(qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string short columns to see if the first column is less than the second column.
-     *
-     * @param family     The column family.
-     * @param qualifier1 The first qualifier.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortLesserS (byte[] family, byte[] qualifier1, byte[] qualifier2)
-    throws ModelException {
-        return isShortLesserS(family, qualifier1, family, qualifier2);
-    }
-
-    /**
-     * Compare two string short columns to see if the first column is less than the second column.
-     *
-     * @param family1    The first column family.
-     * @param qualifier1 The first qualifier.
-     * @param family2    The second column family.
-     * @param qualifier2 The second qualifier.
-     *
-     * @throws ModelException If either column is nonexistent.
-     */
-    public boolean isShortLesserS (byte[] family1, byte[] qualifier1, byte[] family2, byte[] qualifier2)
-    throws ModelException {
-        assert family1 != null && qualifier1 != null && family2 != null && qualifier2 != null
-             : "family1 == null || qualifier1 == null || family2 == null || qualifier2 == null";
-
-        return parseShort(family1, qualifier1) < parseShort(family2, qualifier2);
     }
 
     /**
@@ -2233,5 +1698,21 @@ public class Model {
         this.result = result;
 
         return this;
+    }
+
+    /**
+     * {@link CompareOp} represents a comparison operation.
+     *
+     * @author Sean Kerr [sean@code-box.org]
+     */
+    public enum CompareOp {
+        /** The equality comparison. */
+        EQ,
+
+        /** The greater than comparison. */
+        GT,
+
+        /** The less than comparison. */
+        LT
     }
 }
