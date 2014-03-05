@@ -89,6 +89,8 @@ public class TableWriter extends Writer {
             table.flushCommits();
             table.close();
         }
+
+        tables.clear();
     }
 
     /**
