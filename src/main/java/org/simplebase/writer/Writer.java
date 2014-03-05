@@ -27,7 +27,7 @@ import org.apache.hadoop.hbase.util.Bytes;
  *
  * <p>
  * Using a {@link Writer} is as simple as creating an instance, calling {@link #setTableName}, calling {@link #setRow},
- * and then calling {@link #write} for each column you choose to write.
+ * and then writing data.
  * </p>
  *
  * <p>
@@ -74,6 +74,13 @@ public abstract class Writer {
      */
     public abstract void flush ()
     throws InterruptedException, IOException;
+
+    /**
+     * Retrieve the default column family.
+     */
+    public byte[] getColumnFamily () {
+        return family;
+    }
 
     /**
      * Retrieve the HBase configuration.
@@ -177,9 +184,9 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer write (byte[] qualifier, boolean value)
+    public Writer writeBoolean (byte[] qualifier, boolean value)
     throws IOException {
-        return write(family, qualifier, value);
+        return writeBoolean(family, qualifier, value);
     }
 
     /**
@@ -191,9 +198,42 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer write (byte[] family, byte[] qualifier, boolean value)
+    public Writer writeBoolean (byte[] family, byte[] qualifier, boolean value)
     throws IOException {
         put.add(family, qualifier, Bytes.toBytes(value));
+
+        return this;
+    }
+
+    /**
+     * Write a string boolean value.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param qualifier The qualifier.
+     * @param value     The value.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    public Writer writeBooleanS (byte[] qualifier, boolean value)
+    throws IOException {
+        return writeBooleanS(family, qualifier, value);
+    }
+
+    /**
+     * Write a string boolean value.
+     *
+     * @param family    The column family.
+     * @param qualifier The qualifier.
+     * @param value     The value.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    public Writer writeBooleanS (byte[] family, byte[] qualifier, boolean value)
+    throws IOException {
+        put.add(family, qualifier, Bytes.toBytes(value ? "true" : "false"));
 
         return this;
     }
@@ -210,9 +250,9 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer write (byte[] qualifier, byte[] value)
+    public Writer writeBytes (byte[] qualifier, byte[] value)
     throws IOException {
-        return write(family, qualifier, value);
+        return writeBytes(family, qualifier, value);
     }
 
     /**
@@ -224,7 +264,7 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer write (byte[] family, byte[] qualifier, byte[] value)
+    public Writer writeBytes (byte[] family, byte[] qualifier, byte[] value)
     throws IOException {
         assert family != null && qualifier != null && value != null
              : "family == null || qualifer == null || value == null";
@@ -246,9 +286,9 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer write (byte[] qualifier, double value)
+    public Writer writeDouble (byte[] qualifier, double value)
     throws IOException {
-        return write(family, qualifier, value);
+        return writeDouble(family, qualifier, value);
     }
 
     /**
@@ -260,174 +300,9 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer write (byte[] family, byte[] qualifier, double value)
+    public Writer writeDouble (byte[] family, byte[] qualifier, double value)
     throws IOException {
         put.add(family, qualifier, Bytes.toBytes(value));
-
-        return this;
-    }
-
-    /**
-     * Write a binary float value.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier The qualifier.
-     * @param value     The value.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public Writer write (byte[] qualifier, float value)
-    throws IOException {
-        return write(family, qualifier, value);
-    }
-
-    /**
-     * Write a binary float value.
-     *
-     * @param family    The column family.
-     * @param qualifier The qualifier.
-     * @param value     The value.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public Writer write (byte[] family, byte[] qualifier, float value)
-    throws IOException {
-        put.add(family, qualifier, Bytes.toBytes(value));
-
-        return this;
-    }
-
-    /**
-     * Write a binary int value.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier The qualifier.
-     * @param value     The value.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public Writer write (byte[] qualifier, int value)
-    throws IOException {
-        return write(family, qualifier, value);
-    }
-
-    /**
-     * Write a binary int value.
-     *
-     * @param family    The column family.
-     * @param qualifier The qualifier.
-     * @param value     The value.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public Writer write (byte[] family, byte[] qualifier, int value)
-    throws IOException {
-        put.add(family, qualifier, Bytes.toBytes(value));
-
-        return this;
-    }
-
-    /**
-     * Write a binary long value.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier The qualifier.
-     * @param value     The value.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public Writer write (byte[] qualifier, long value)
-    throws IOException {
-        return write(family, qualifier, value);
-    }
-
-    /**
-     * Write a binary long value.
-     *
-     * @param family    The column family.
-     * @param qualifier The qualifier.
-     * @param value     The value.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public Writer write (byte[] family, byte[] qualifier, long value)
-    throws IOException {
-        put.add(family, qualifier, Bytes.toBytes(value));
-
-        return this;
-    }
-
-    /**
-     * Write a binary short value.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier The qualifier.
-     * @param value     The value.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public Writer write (byte[] qualifier, short value)
-    throws IOException {
-        return write(family, qualifier, value);
-    }
-
-    /**
-     * Write a binary short value.
-     *
-     * @param family    The column family.
-     * @param qualifier The qualifier.
-     * @param value     The value.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public Writer write (byte[] family, byte[] qualifier, short value)
-    throws IOException {
-        put.add(family, qualifier, Bytes.toBytes(value));
-
-        return this;
-    }
-
-    /**
-     * Write a string boolean value.
-     *
-     * <p>
-     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
-     * </p>
-     *
-     * @param qualifier The qualifier.
-     * @param value     The value.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public Writer writeString (byte[] qualifier, boolean value)
-    throws IOException {
-        return writeString(family, qualifier, value);
-    }
-
-    /**
-     * Write a string boolean value.
-     *
-     * @param family    The column family.
-     * @param qualifier The qualifier.
-     * @param value     The value.
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    public Writer writeString (byte[] family, byte[] qualifier, boolean value)
-    throws IOException {
-        put.add(family, qualifier, Bytes.toBytes(value ? "true" : "false"));
 
         return this;
     }
@@ -444,9 +319,9 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer writeString (byte[] qualifier, double value)
+    public Writer writeDoubleS (byte[] qualifier, double value)
     throws IOException {
-        return writeString(family, qualifier, value);
+        return writeDoubleS(family, qualifier, value);
     }
 
     /**
@@ -458,9 +333,42 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer writeString (byte[] family, byte[] qualifier, double value)
+    public Writer writeDoubleS (byte[] family, byte[] qualifier, double value)
     throws IOException {
         put.add(family, qualifier, Bytes.toBytes(String.valueOf(value)));
+
+        return this;
+    }
+
+    /**
+     * Write a binary float value.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param qualifier The qualifier.
+     * @param value     The value.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    public Writer writeFloat (byte[] qualifier, float value)
+    throws IOException {
+        return writeFloat(family, qualifier, value);
+    }
+
+    /**
+     * Write a binary float value.
+     *
+     * @param family    The column family.
+     * @param qualifier The qualifier.
+     * @param value     The value.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    public Writer writeFloat (byte[] family, byte[] qualifier, float value)
+    throws IOException {
+        put.add(family, qualifier, Bytes.toBytes(value));
 
         return this;
     }
@@ -477,9 +385,9 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer writeString (byte[] qualifier, float value)
+    public Writer writeFloatS (byte[] qualifier, float value)
     throws IOException {
-        return writeString(family, qualifier, value);
+        return writeFloatS(family, qualifier, value);
     }
 
     /**
@@ -491,9 +399,42 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer writeString (byte[] family, byte[] qualifier, float value)
+    public Writer writeFloatS (byte[] family, byte[] qualifier, float value)
     throws IOException {
         put.add(family, qualifier, Bytes.toBytes(String.valueOf(value)));
+
+        return this;
+    }
+
+    /**
+     * Write a binary int value.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param qualifier The qualifier.
+     * @param value     The value.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    public Writer writeInt (byte[] qualifier, int value)
+    throws IOException {
+        return writeInt(family, qualifier, value);
+    }
+
+    /**
+     * Write a binary int value.
+     *
+     * @param family    The column family.
+     * @param qualifier The qualifier.
+     * @param value     The value.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    public Writer writeInt (byte[] family, byte[] qualifier, int value)
+    throws IOException {
+        put.add(family, qualifier, Bytes.toBytes(value));
 
         return this;
     }
@@ -510,9 +451,9 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer writeString (byte[] qualifier, int value)
+    public Writer writeIntS (byte[] qualifier, int value)
     throws IOException {
-        return writeString(family, qualifier, value);
+        return writeIntS(family, qualifier, value);
     }
 
     /**
@@ -524,9 +465,42 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer writeString (byte[] family, byte[] qualifier, int value)
+    public Writer writeIntS (byte[] family, byte[] qualifier, int value)
     throws IOException {
         put.add(family, qualifier, Bytes.toBytes(String.valueOf(value)));
+
+        return this;
+    }
+
+    /**
+     * Write a binary long value.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param qualifier The qualifier.
+     * @param value     The value.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    public Writer writeLong (byte[] qualifier, long value)
+    throws IOException {
+        return writeLong(family, qualifier, value);
+    }
+
+    /**
+     * Write a binary long value.
+     *
+     * @param family    The column family.
+     * @param qualifier The qualifier.
+     * @param value     The value.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    public Writer writeLong (byte[] family, byte[] qualifier, long value)
+    throws IOException {
+        put.add(family, qualifier, Bytes.toBytes(value));
 
         return this;
     }
@@ -543,9 +517,9 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer writeString (byte[] qualifier, long value)
+    public Writer writeLongS (byte[] qualifier, long value)
     throws IOException {
-        return writeString(family, qualifier, value);
+        return writeLongS(family, qualifier, value);
     }
 
     /**
@@ -557,9 +531,42 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer writeString (byte[] family, byte[] qualifier, long value)
+    public Writer writeLongS (byte[] family, byte[] qualifier, long value)
     throws IOException {
         put.add(family, qualifier, Bytes.toBytes(String.valueOf(value)));
+
+        return this;
+    }
+
+    /**
+     * Write a binary short value.
+     *
+     * <p>
+     * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
+     * </p>
+     *
+     * @param qualifier The qualifier.
+     * @param value     The value.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    public Writer writeShort (byte[] qualifier, short value)
+    throws IOException {
+        return writeShort(family, qualifier, value);
+    }
+
+    /**
+     * Write a binary short value.
+     *
+     * @param family    The column family.
+     * @param qualifier The qualifier.
+     * @param value     The value.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    public Writer writeShort (byte[] family, byte[] qualifier, short value)
+    throws IOException {
+        put.add(family, qualifier, Bytes.toBytes(value));
 
         return this;
     }
@@ -576,9 +583,9 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer writeString (byte[] qualifier, short value)
+    public Writer writeShortS (byte[] qualifier, short value)
     throws IOException {
-        return writeString(family, qualifier, value);
+        return writeShortS(family, qualifier, value);
     }
 
     /**
@@ -590,7 +597,7 @@ public abstract class Writer {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public Writer writeString (byte[] family, byte[] qualifier, short value)
+    public Writer writeShortS (byte[] family, byte[] qualifier, short value)
     throws IOException {
         put.add(family, qualifier, Bytes.toBytes(String.valueOf(value)));
 
