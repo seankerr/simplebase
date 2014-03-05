@@ -239,7 +239,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary byte array value.
+     * Write a byte array value.
      *
      * <p>
      * <strong>Note:</strong> This assumes {@link #setColumnFamily} has been called.
@@ -256,7 +256,7 @@ public abstract class Writer {
     }
 
     /**
-     * Write a binary byte array value.
+     * Write a byte array value.
      *
      * @param family    The column family.
      * @param qualifier The qualifier.
