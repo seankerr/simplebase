@@ -36,7 +36,6 @@ import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -68,9 +67,119 @@ public class ModelTest {
     // -----------------------------------------------------------------------------------------------------------------
 
     @Test
+    public void compareDouble () throws Exception {
+        assertNotNull(model);
+        assertTrue(model.compareDouble(model.COMPARE_EQ, Bytes.toBytes("double1"), Bytes.toBytes("double1")));
+        assertFalse(model.compareDouble(model.COMPARE_EQ, Bytes.toBytes("double1"), Bytes.toBytes("double2")));
+        assertTrue(model.compareDouble(model.COMPARE_LT, Bytes.toBytes("double1"), Bytes.toBytes("double2")));
+        assertFalse(model.compareDouble(model.COMPARE_LT, Bytes.toBytes("double2"), Bytes.toBytes("double1")));
+        assertTrue(model.compareDouble(model.COMPARE_GT, Bytes.toBytes("double2"), Bytes.toBytes("double1")));
+        assertFalse(model.compareDouble(model.COMPARE_GT, Bytes.toBytes("double1"), Bytes.toBytes("double2")));
+    }
+
+    @Test
+    public void compareDoubleS () throws Exception {
+        assertNotNull(model);
+        assertTrue(model.compareDoubleS(model.COMPARE_EQ, Bytes.toBytes("double_str1"), Bytes.toBytes("double_str1")));
+        assertFalse(model.compareDoubleS(model.COMPARE_EQ, Bytes.toBytes("double_str1"), Bytes.toBytes("double_str2")));
+        assertTrue(model.compareDoubleS(model.COMPARE_LT, Bytes.toBytes("double_str1"), Bytes.toBytes("double_str2")));
+        assertFalse(model.compareDoubleS(model.COMPARE_LT, Bytes.toBytes("double_str2"), Bytes.toBytes("double_str1")));
+        assertTrue(model.compareDoubleS(model.COMPARE_GT, Bytes.toBytes("double_str2"), Bytes.toBytes("double_str1")));
+        assertFalse(model.compareDoubleS(model.COMPARE_GT, Bytes.toBytes("double_str1"), Bytes.toBytes("double_str2")));
+    }
+
+    @Test
+    public void compareFloat () throws Exception {
+        assertNotNull(model);
+        assertTrue(model.compareFloat(model.COMPARE_EQ, Bytes.toBytes("float1"), Bytes.toBytes("float1")));
+        assertFalse(model.compareFloat(model.COMPARE_EQ, Bytes.toBytes("float1"), Bytes.toBytes("float2")));
+        assertTrue(model.compareFloat(model.COMPARE_LT, Bytes.toBytes("float1"), Bytes.toBytes("float2")));
+        assertFalse(model.compareFloat(model.COMPARE_LT, Bytes.toBytes("float2"), Bytes.toBytes("float1")));
+        assertTrue(model.compareFloat(model.COMPARE_GT, Bytes.toBytes("float2"), Bytes.toBytes("float1")));
+        assertFalse(model.compareFloat(model.COMPARE_GT, Bytes.toBytes("float1"), Bytes.toBytes("float2")));
+    }
+
+    @Test
+    public void compareFloatS () throws Exception {
+        assertNotNull(model);
+        assertTrue(model.compareFloatS(model.COMPARE_EQ, Bytes.toBytes("float_str1"), Bytes.toBytes("float_str1")));
+        assertFalse(model.compareFloatS(model.COMPARE_EQ, Bytes.toBytes("float_str1"), Bytes.toBytes("float_str2")));
+        assertTrue(model.compareFloatS(model.COMPARE_LT, Bytes.toBytes("float_str1"), Bytes.toBytes("float_str2")));
+        assertFalse(model.compareFloatS(model.COMPARE_LT, Bytes.toBytes("float_str2"), Bytes.toBytes("float_str1")));
+        assertTrue(model.compareFloatS(model.COMPARE_GT, Bytes.toBytes("float_str2"), Bytes.toBytes("float_str1")));
+        assertFalse(model.compareFloatS(model.COMPARE_GT, Bytes.toBytes("float_str1"), Bytes.toBytes("float_str2")));
+    }
+
+    @Test
+    public void compareInt () throws Exception {
+        assertNotNull(model);
+        assertTrue(model.compareInt(model.COMPARE_EQ, Bytes.toBytes("int1"), Bytes.toBytes("int1")));
+        assertFalse(model.compareInt(model.COMPARE_EQ, Bytes.toBytes("int1"), Bytes.toBytes("int2")));
+        assertTrue(model.compareInt(model.COMPARE_LT, Bytes.toBytes("int1"), Bytes.toBytes("int2")));
+        assertFalse(model.compareInt(model.COMPARE_LT, Bytes.toBytes("int2"), Bytes.toBytes("int1")));
+        assertTrue(model.compareInt(model.COMPARE_GT, Bytes.toBytes("int2"), Bytes.toBytes("int1")));
+        assertFalse(model.compareInt(model.COMPARE_GT, Bytes.toBytes("int1"), Bytes.toBytes("int2")));
+    }
+
+    @Test
+    public void compareIntS () throws Exception {
+        assertNotNull(model);
+        assertTrue(model.compareIntS(model.COMPARE_EQ, Bytes.toBytes("int_str1"), Bytes.toBytes("int_str1")));
+        assertFalse(model.compareIntS(model.COMPARE_EQ, Bytes.toBytes("int_str1"), Bytes.toBytes("int_str2")));
+        assertTrue(model.compareIntS(model.COMPARE_LT, Bytes.toBytes("int_str1"), Bytes.toBytes("int_str2")));
+        assertFalse(model.compareIntS(model.COMPARE_LT, Bytes.toBytes("int_str2"), Bytes.toBytes("int_str1")));
+        assertTrue(model.compareIntS(model.COMPARE_GT, Bytes.toBytes("int_str2"), Bytes.toBytes("int_str1")));
+        assertFalse(model.compareIntS(model.COMPARE_GT, Bytes.toBytes("int_str1"), Bytes.toBytes("int_str2")));
+    }
+
+    @Test
+    public void compareLong () throws Exception {
+        assertNotNull(model);
+        assertTrue(model.compareLong(model.COMPARE_EQ, Bytes.toBytes("long1"), Bytes.toBytes("long1")));
+        assertFalse(model.compareLong(model.COMPARE_EQ, Bytes.toBytes("long1"), Bytes.toBytes("long2")));
+        assertTrue(model.compareLong(model.COMPARE_LT, Bytes.toBytes("long1"), Bytes.toBytes("long2")));
+        assertFalse(model.compareLong(model.COMPARE_LT, Bytes.toBytes("long2"), Bytes.toBytes("long1")));
+        assertTrue(model.compareLong(model.COMPARE_GT, Bytes.toBytes("long2"), Bytes.toBytes("long1")));
+        assertFalse(model.compareLong(model.COMPARE_GT, Bytes.toBytes("long1"), Bytes.toBytes("long2")));
+    }
+
+    @Test
+    public void compareLongS () throws Exception {
+        assertNotNull(model);
+        assertTrue(model.compareLongS(model.COMPARE_EQ, Bytes.toBytes("long_str1"), Bytes.toBytes("long_str1")));
+        assertFalse(model.compareLongS(model.COMPARE_EQ, Bytes.toBytes("long_str1"), Bytes.toBytes("long_str2")));
+        assertTrue(model.compareLongS(model.COMPARE_LT, Bytes.toBytes("long_str1"), Bytes.toBytes("long_str2")));
+        assertFalse(model.compareLongS(model.COMPARE_LT, Bytes.toBytes("long_str2"), Bytes.toBytes("long_str1")));
+        assertTrue(model.compareLongS(model.COMPARE_GT, Bytes.toBytes("long_str2"), Bytes.toBytes("long_str1")));
+        assertFalse(model.compareLongS(model.COMPARE_GT, Bytes.toBytes("long_str1"), Bytes.toBytes("long_str2")));
+    }
+
+    @Test
+    public void compareShort () throws Exception {
+        assertNotNull(model);
+        assertTrue(model.compareShort(model.COMPARE_EQ, Bytes.toBytes("short1"), Bytes.toBytes("short1")));
+        assertFalse(model.compareShort(model.COMPARE_EQ, Bytes.toBytes("short1"), Bytes.toBytes("short2")));
+        assertTrue(model.compareShort(model.COMPARE_LT, Bytes.toBytes("short1"), Bytes.toBytes("short2")));
+        assertFalse(model.compareShort(model.COMPARE_LT, Bytes.toBytes("short2"), Bytes.toBytes("short1")));
+        assertTrue(model.compareShort(model.COMPARE_GT, Bytes.toBytes("short2"), Bytes.toBytes("short1")));
+        assertFalse(model.compareShort(model.COMPARE_GT, Bytes.toBytes("short1"), Bytes.toBytes("short2")));
+    }
+
+    @Test
+    public void compareShortS () throws Exception {
+        assertNotNull(model);
+        assertTrue(model.compareShortS(model.COMPARE_EQ, Bytes.toBytes("short_str1"), Bytes.toBytes("short_str1")));
+        assertFalse(model.compareShortS(model.COMPARE_EQ, Bytes.toBytes("short_str1"), Bytes.toBytes("short_str2")));
+        assertTrue(model.compareShortS(model.COMPARE_LT, Bytes.toBytes("short_str1"), Bytes.toBytes("short_str2")));
+        assertFalse(model.compareShortS(model.COMPARE_LT, Bytes.toBytes("short_str2"), Bytes.toBytes("short_str1")));
+        assertTrue(model.compareShortS(model.COMPARE_GT, Bytes.toBytes("short_str2"), Bytes.toBytes("short_str1")));
+        assertFalse(model.compareShortS(model.COMPARE_GT, Bytes.toBytes("short_str1"), Bytes.toBytes("short_str2")));
+    }
+
+    @Test
     public void constructor () throws Exception {
-        assertNotEquals(null, new Model());
-        assertNotEquals(null, new Model(result));
+        assertNotNull(new Model());
+        assertNotNull(new Model(result));
     }
 
     @Test
@@ -135,7 +244,6 @@ public class ModelTest {
     @Test
     public void getBoolean () throws Exception {
         assertNotNull(model);
-
         assertTrue(model.getBoolean(TEST_FAMILY, Bytes.toBytes("boolean1")));
         assertFalse(model.getBoolean(TEST_FAMILY, Bytes.toBytes("boolean2")));
 
@@ -145,16 +253,15 @@ public class ModelTest {
 
     @Test
     public void getBooleanD () {
+        assertNotNull(model);
         assertTrue(model.getBooleanD(TEST_FAMILY, Bytes.toBytes("boolean1"), false));
         assertFalse(model.getBooleanD(TEST_FAMILY, NONEXISTENT, false));
-
         assertNull(model.getBooleanD(TEST_FAMILY, NONEXISTENT, null));
     }
 
     @Test
     public void getBytes () throws Exception {
         assertNotNull(model);
-
         assertEquals(1, Bytes.toInt(model.getBytes(TEST_FAMILY, Bytes.toBytes("int1"))));
         assertEquals(2, Bytes.toInt(model.getBytes(TEST_FAMILY, Bytes.toBytes("int2"))));
 
@@ -164,16 +271,21 @@ public class ModelTest {
 
     @Test
     public void getBytesD () {
+        assertNotNull(model);
         assertEquals(1, Bytes.toInt(model.getBytesD(TEST_FAMILY, Bytes.toBytes("int1"), Bytes.toBytes(1))));
         assertEquals(2, Bytes.toInt(model.getBytesD(TEST_FAMILY, NONEXISTENT, Bytes.toBytes(2))));
-
         assertNull(model.getBytesD(TEST_FAMILY, NONEXISTENT, null));
+    }
+
+    @Test
+    public void getColumnFamily () {
+        assertNotNull(model);
+        assertTrue(Arrays.equals(TEST_FAMILY, model.getColumnFamily()));
     }
 
     @Test
     public void getDouble () throws Exception {
         assertNotNull(model);
-
         assertEquals(new Double(1.0), model.getDouble(TEST_FAMILY, Bytes.toBytes("double1")));
         assertEquals(new Double(2.0), model.getDouble(TEST_FAMILY, Bytes.toBytes("double2")));
 
@@ -183,14 +295,16 @@ public class ModelTest {
 
     @Test
     public void getDoubleD () throws Exception {
+        assertNotNull(model);
         assertEquals(new Double(1.0), model.getDoubleD(TEST_FAMILY, Bytes.toBytes("double1"), (double) 1.0));
         assertEquals(new Double(2.0), model.getDoubleD(TEST_FAMILY, NONEXISTENT, (double) 2.0));
-
         assertNull(model.getDoubleD(TEST_FAMILY, NONEXISTENT, null));
     }
 
     @Test
     public void getFamilies () {
+        assertNotNull(model);
+
         List<byte[]> families = model.getFamilies();
 
         assertNotNull(families);
@@ -201,7 +315,6 @@ public class ModelTest {
     @Test
     public void getFloat () throws Exception {
         assertNotNull(model);
-
         assertEquals(new Float(1.0), model.getFloat(TEST_FAMILY, Bytes.toBytes("float1")));
         assertEquals(new Float(2.0), model.getFloat(TEST_FAMILY, Bytes.toBytes("float2")));
 
@@ -211,16 +324,15 @@ public class ModelTest {
 
     @Test
     public void getFloatD () {
+        assertNotNull(model);
         assertEquals(new Float(1.0), model.getFloatD(TEST_FAMILY, Bytes.toBytes("float1"), (float) 1.0));
         assertEquals(new Float(2.0), model.getFloatD(TEST_FAMILY, NONEXISTENT, (float) 2.0));
-
         assertNull(model.getFloatD(TEST_FAMILY, NONEXISTENT, null));
     }
 
     @Test
     public void getInt () throws Exception {
         assertNotNull(model);
-
         assertEquals(new Integer(1), model.getInt(TEST_FAMILY, Bytes.toBytes("int1")));
         assertEquals(new Integer(2), model.getInt(TEST_FAMILY, Bytes.toBytes("int2")));
 
@@ -230,16 +342,15 @@ public class ModelTest {
 
     @Test
     public void getIntD () {
+        assertNotNull(model);
         assertEquals(new Integer(1), model.getIntD(TEST_FAMILY, Bytes.toBytes("int1"), (int) 1));
         assertEquals(new Integer(2), model.getIntD(TEST_FAMILY, NONEXISTENT, (int) 2));
-
         assertNull(model.getIntD(TEST_FAMILY, NONEXISTENT, null));
     }
 
     @Test
     public void getLong () throws Exception {
         assertNotNull(model);
-
         assertEquals(new Long((long) 1), model.getLong(TEST_FAMILY, Bytes.toBytes("long1")));
         assertEquals(new Long((long) 2), model.getLong(TEST_FAMILY, Bytes.toBytes("long2")));
 
@@ -249,14 +360,16 @@ public class ModelTest {
 
     @Test
     public void getLongD () {
+        assertNotNull(model);
         assertEquals(new Long((long) 1), model.getLongD(TEST_FAMILY, Bytes.toBytes("long1"), (long) 1));
         assertEquals(new Long((long) 2), model.getLongD(TEST_FAMILY, NONEXISTENT, (long) 2));
-
         assertNull(model.getLongD(TEST_FAMILY, NONEXISTENT, null));
     }
 
     @Test
     public void getQualifiers () {
+        assertNotNull(model);
+
         List<byte[]> qualifiers = model.getQualifiers(TEST_FAMILY);
 
         assertNotNull(qualifiers);
@@ -291,6 +404,7 @@ public class ModelTest {
 
     @Test
     public void getResult () throws Exception {
+        assertNotNull(model);
         assertEquals(result, model.getResult());
         assertNotNull(model.getResult());
     }
@@ -298,7 +412,6 @@ public class ModelTest {
     @Test
     public void getShort () throws Exception {
         assertNotNull(model);
-
         assertEquals(new Short((short) 1), model.getShort(TEST_FAMILY, Bytes.toBytes("short1")));
         assertEquals(new Short((short) 2), model.getShort(TEST_FAMILY, Bytes.toBytes("short2")));
 
@@ -308,14 +421,15 @@ public class ModelTest {
 
     @Test
     public void getShortD () {
+        assertNotNull(model);
         assertEquals(new Short((short) 1), model.getShortD(TEST_FAMILY, Bytes.toBytes("short1"), (short) 1));
         assertEquals(new Short((short) 2), model.getShortD(TEST_FAMILY, NONEXISTENT, (short) 2));
-
         assertNull(model.getShortD(TEST_FAMILY, NONEXISTENT, null));
     }
 
     @Test
     public void getString () throws Exception {
+        assertNotNull(model);
         assertEquals("hbase", model.getString(TEST_FAMILY, Bytes.toBytes("string1")));
         assertEquals("rocks", model.getString(TEST_FAMILY, Bytes.toBytes("string2")));
 
@@ -325,14 +439,15 @@ public class ModelTest {
 
     @Test
     public void getStringD () {
+        assertNotNull(model);
         assertEquals("hbase", model.getStringD(TEST_FAMILY, Bytes.toBytes("string1"), "hbase"));
         assertEquals("rocks", model.getStringD(TEST_FAMILY, NONEXISTENT, "rocks"));
-
         assertNull(model.getStringD(TEST_FAMILY, NONEXISTENT, null));
     }
 
     @Test
     public void hasColumn () {
+        assertNotNull(model);
         assertTrue(model.hasColumn(TEST_FAMILY, Bytes.toBytes("boolean1")));
         assertTrue(model.hasColumn(TEST_FAMILY, Bytes.toBytes("boolean2")));
         assertTrue(model.hasColumn(TEST_FAMILY, Bytes.toBytes("boolean_str1")));
@@ -364,158 +479,40 @@ public class ModelTest {
 
     @Test
     public void hasFamily () {
+        assertNotNull(model);
         assertTrue(model.hasFamily(TEST_FAMILY));
         assertFalse(model.hasFamily(NONEXISTENT));
     }
 
     @Test
     public void hasResult () {
+        assertNotNull(model);
         assertTrue(model.hasResult());
     }
 
     @Test
-    public void isDoubleGreater () throws Exception {
-        assertFalse(model.isDoubleGreater(TEST_FAMILY, Bytes.toBytes("double1"), Bytes.toBytes("double2")));
-        assertTrue(model.isDoubleGreater(TEST_FAMILY, Bytes.toBytes("double2"), Bytes.toBytes("double1")));
-    }
-
-    @Test
-    public void isDoubleLesser () throws Exception {
-        assertTrue(model.isDoubleLesser(TEST_FAMILY, Bytes.toBytes("double1"), Bytes.toBytes("double2")));
-        assertFalse(model.isDoubleLesser(TEST_FAMILY, Bytes.toBytes("double2"), Bytes.toBytes("double1")));
-    }
-
-    @Test
-    public void isDoubleGreaterS () throws Exception {
-        assertFalse(model.isDoubleGreaterS(TEST_FAMILY, Bytes.toBytes("double_str1"), Bytes.toBytes("double_str2")));
-        assertTrue(model.isDoubleGreaterS(TEST_FAMILY, Bytes.toBytes("double_str2"), Bytes.toBytes("double_str1")));
-    }
-
-    @Test
-    public void isDoubleLesserS () throws Exception {
-        assertTrue(model.isDoubleLesserS(TEST_FAMILY, Bytes.toBytes("double_str1"), Bytes.toBytes("double_str2")));
-        assertFalse(model.isDoubleLesserS(TEST_FAMILY, Bytes.toBytes("double_str2"), Bytes.toBytes("double_str1")));
-    }
-
-    @Test
     public void isEqual () throws Exception {
-        assertTrue(model.isEqual(TEST_FAMILY, Bytes.toBytes("boolean1"), Bytes.toBytes("boolean1")));
-        assertTrue(model.isEqual(TEST_FAMILY, Bytes.toBytes("double1"), Bytes.toBytes("double1")));
-        assertTrue(model.isEqual(TEST_FAMILY, Bytes.toBytes("float1"), Bytes.toBytes("float1")));
-        assertTrue(model.isEqual(TEST_FAMILY, Bytes.toBytes("int1"), Bytes.toBytes("int1")));
-        assertTrue(model.isEqual(TEST_FAMILY, Bytes.toBytes("long1"), Bytes.toBytes("long1")));
-        assertTrue(model.isEqual(TEST_FAMILY, Bytes.toBytes("short1"), Bytes.toBytes("short1")));
-        assertTrue(model.isEqual(TEST_FAMILY, Bytes.toBytes("string1"), Bytes.toBytes("string1")));
+        assertNotNull(model);
+        assertTrue(model.isEqual(Bytes.toBytes("boolean1"), Bytes.toBytes("boolean1")));
+        assertTrue(model.isEqual(Bytes.toBytes("double1"), Bytes.toBytes("double1")));
+        assertTrue(model.isEqual(Bytes.toBytes("float1"), Bytes.toBytes("float1")));
+        assertTrue(model.isEqual(Bytes.toBytes("int1"), Bytes.toBytes("int1")));
+        assertTrue(model.isEqual(Bytes.toBytes("long1"), Bytes.toBytes("long1")));
+        assertTrue(model.isEqual(Bytes.toBytes("short1"), Bytes.toBytes("short1")));
+        assertTrue(model.isEqual(Bytes.toBytes("string1"), Bytes.toBytes("string1")));
 
-        assertFalse(model.isEqual(TEST_FAMILY, Bytes.toBytes("boolean1"), Bytes.toBytes("boolean2")));
-        assertFalse(model.isEqual(TEST_FAMILY, Bytes.toBytes("double1"), Bytes.toBytes("double2")));
-        assertFalse(model.isEqual(TEST_FAMILY, Bytes.toBytes("float1"), Bytes.toBytes("float2")));
-        assertFalse(model.isEqual(TEST_FAMILY, Bytes.toBytes("int1"), Bytes.toBytes("int2")));
-        assertFalse(model.isEqual(TEST_FAMILY, Bytes.toBytes("long1"), Bytes.toBytes("long2")));
-        assertFalse(model.isEqual(TEST_FAMILY, Bytes.toBytes("short1"), Bytes.toBytes("short2")));
-        assertFalse(model.isEqual(TEST_FAMILY, Bytes.toBytes("string1"), Bytes.toBytes("string2")));
-    }
-
-    @Test
-    public void isFloatGreater () throws Exception {
-        assertFalse(model.isFloatGreater(TEST_FAMILY, Bytes.toBytes("float1"), Bytes.toBytes("float2")));
-        assertTrue(model.isFloatGreater(TEST_FAMILY, Bytes.toBytes("float2"), Bytes.toBytes("float1")));
-    }
-
-    @Test
-    public void isFloatLesser () throws Exception {
-        assertTrue(model.isFloatLesser(TEST_FAMILY, Bytes.toBytes("float1"), Bytes.toBytes("float2")));
-        assertFalse(model.isFloatLesser(TEST_FAMILY, Bytes.toBytes("float2"), Bytes.toBytes("float1")));
-    }
-
-    @Test
-    public void isFloatGreaterS () throws Exception {
-        assertFalse(model.isFloatGreaterS(TEST_FAMILY, Bytes.toBytes("float_str1"), Bytes.toBytes("float_str2")));
-        assertTrue(model.isFloatGreaterS(TEST_FAMILY, Bytes.toBytes("float_str2"), Bytes.toBytes("float_str1")));
-    }
-
-    @Test
-    public void isFloatLesserS () throws Exception {
-        assertTrue(model.isFloatLesserS(TEST_FAMILY, Bytes.toBytes("float_str1"), Bytes.toBytes("float_str2")));
-        assertFalse(model.isFloatLesserS(TEST_FAMILY, Bytes.toBytes("float_str2"), Bytes.toBytes("float_str1")));
-    }
-
-    @Test
-    public void isIntGreater () throws Exception {
-        assertFalse(model.isIntGreater(TEST_FAMILY, Bytes.toBytes("int1"), Bytes.toBytes("int2")));
-        assertTrue(model.isIntGreater(TEST_FAMILY, Bytes.toBytes("int2"), Bytes.toBytes("int1")));
-    }
-
-    @Test
-    public void isIntLesser () throws Exception {
-        assertTrue(model.isIntLesser(TEST_FAMILY, Bytes.toBytes("int1"), Bytes.toBytes("int2")));
-        assertFalse(model.isIntLesser(TEST_FAMILY, Bytes.toBytes("int2"), Bytes.toBytes("int1")));
-    }
-
-    @Test
-    public void isIntGreaterS () throws Exception {
-        assertFalse(model.isIntGreaterS(TEST_FAMILY, Bytes.toBytes("int_str1"), Bytes.toBytes("int_str2")));
-        assertTrue(model.isIntGreaterS(TEST_FAMILY, Bytes.toBytes("int_str2"), Bytes.toBytes("int_str1")));
-    }
-
-    @Test
-    public void isIntLesserS () throws Exception {
-        assertTrue(model.isIntLesserS(TEST_FAMILY, Bytes.toBytes("int_str1"), Bytes.toBytes("int_str2")));
-        assertFalse(model.isIntLesserS(TEST_FAMILY, Bytes.toBytes("int_str2"), Bytes.toBytes("int_str1")));
-    }
-
-    @Test
-    public void isLongGreater () throws Exception {
-        assertFalse(model.isLongGreater(TEST_FAMILY, Bytes.toBytes("long1"), Bytes.toBytes("long2")));
-        assertTrue(model.isLongGreater(TEST_FAMILY, Bytes.toBytes("long2"), Bytes.toBytes("long1")));
-    }
-
-    @Test
-    public void isLongLesser () throws Exception {
-        assertTrue(model.isLongLesser(TEST_FAMILY, Bytes.toBytes("long1"), Bytes.toBytes("long2")));
-        assertFalse(model.isLongLesser(TEST_FAMILY, Bytes.toBytes("long2"), Bytes.toBytes("long1")));
-    }
-
-    @Test
-    public void isLongGreaterS () throws Exception {
-        assertFalse(model.isLongGreaterS(TEST_FAMILY, Bytes.toBytes("long_str1"), Bytes.toBytes("long_str2")));
-        assertTrue(model.isLongGreaterS(TEST_FAMILY, Bytes.toBytes("long_str2"), Bytes.toBytes("long_str1")));
-    }
-
-    @Test
-    public void isLongLesserS () throws Exception {
-        assertTrue(model.isLongLesserS(TEST_FAMILY, Bytes.toBytes("long_str1"), Bytes.toBytes("long_str2")));
-        assertFalse(model.isLongLesserS(TEST_FAMILY, Bytes.toBytes("long_str2"), Bytes.toBytes("long_str1")));
-    }
-
-    @Test
-    public void isShortGreater () throws Exception {
-        assertFalse(model.isShortGreater(TEST_FAMILY, Bytes.toBytes("short1"), Bytes.toBytes("short2")));
-        assertTrue(model.isShortGreater(TEST_FAMILY, Bytes.toBytes("short2"), Bytes.toBytes("short1")));
-    }
-
-    @Test
-    public void isShortLesser () throws Exception {
-        assertTrue(model.isShortLesser(TEST_FAMILY, Bytes.toBytes("short1"), Bytes.toBytes("short2")));
-        assertFalse(model.isShortLesser(TEST_FAMILY, Bytes.toBytes("short2"), Bytes.toBytes("short1")));
-    }
-
-    @Test
-    public void isShortGreaterS () throws Exception {
-        assertFalse(model.isShortGreaterS(TEST_FAMILY, Bytes.toBytes("short_str1"), Bytes.toBytes("short_str2")));
-        assertTrue(model.isShortGreaterS(TEST_FAMILY, Bytes.toBytes("short_str2"), Bytes.toBytes("short_str1")));
-    }
-
-    @Test
-    public void isShortLesserS () throws Exception {
-        assertTrue(model.isShortLesserS(TEST_FAMILY, Bytes.toBytes("short_str1"), Bytes.toBytes("short_str2")));
-        assertFalse(model.isShortLesserS(TEST_FAMILY, Bytes.toBytes("short_str2"), Bytes.toBytes("short_str1")));
+        assertFalse(model.isEqual(Bytes.toBytes("boolean1"), Bytes.toBytes("boolean2")));
+        assertFalse(model.isEqual(Bytes.toBytes("double1"), Bytes.toBytes("double2")));
+        assertFalse(model.isEqual(Bytes.toBytes("float1"), Bytes.toBytes("float2")));
+        assertFalse(model.isEqual(Bytes.toBytes("int1"), Bytes.toBytes("int2")));
+        assertFalse(model.isEqual(Bytes.toBytes("long1"), Bytes.toBytes("long2")));
+        assertFalse(model.isEqual(Bytes.toBytes("short1"), Bytes.toBytes("short2")));
+        assertFalse(model.isEqual(Bytes.toBytes("string1"), Bytes.toBytes("string2")));
     }
 
     @Test
     public void parseBoolean () throws Exception {
         assertNotNull(model);
-
         assertTrue(model.parseBoolean(TEST_FAMILY, Bytes.toBytes("boolean_str1")));
         assertFalse(model.parseBoolean(TEST_FAMILY, Bytes.toBytes("boolean_str2")));
 
@@ -525,6 +522,7 @@ public class ModelTest {
 
     @Test
     public void parseBooleanD () {
+        assertNotNull(model);
         assertTrue(model.parseBooleanD(TEST_FAMILY, Bytes.toBytes("boolean_str1"), false));
         assertFalse(model.parseBooleanD(TEST_FAMILY, NONEXISTENT, false));
 
@@ -534,7 +532,6 @@ public class ModelTest {
     @Test
     public void parseDouble () throws Exception {
         assertNotNull(model);
-
         assertEquals(new Double(1.0), model.parseDouble(TEST_FAMILY, Bytes.toBytes("double_str1")));
         assertEquals(new Double(2.0), model.parseDouble(TEST_FAMILY, Bytes.toBytes("double_str2")));
 
@@ -544,6 +541,7 @@ public class ModelTest {
 
     @Test
     public void parseDoubleD () {
+        assertNotNull(model);
         assertEquals(new Double(1.0), model.parseDoubleD(TEST_FAMILY, Bytes.toBytes("double_str1"), (double) 1.0));
         assertEquals(new Double(2.0), model.parseDoubleD(TEST_FAMILY, NONEXISTENT, (double) 2.0));
 
@@ -553,7 +551,6 @@ public class ModelTest {
     @Test
     public void parseInt () throws Exception {
         assertNotNull(model);
-
         assertEquals(new Integer(1), model.parseInt(TEST_FAMILY, Bytes.toBytes("int_str1")));
         assertEquals(new Integer(2), model.parseInt(TEST_FAMILY, Bytes.toBytes("int_str2")));
 
@@ -563,6 +560,7 @@ public class ModelTest {
 
     @Test
     public void parseIntD () {
+        assertNotNull(model);
         assertEquals(new Integer(1), model.parseIntD(TEST_FAMILY, Bytes.toBytes("int_str1"), (int) 1));
         assertEquals(new Integer(2), model.parseIntD(TEST_FAMILY, NONEXISTENT, (int) 2));
 
@@ -572,7 +570,6 @@ public class ModelTest {
     @Test
     public void parseLong () throws Exception {
         assertNotNull(model);
-
         assertEquals(new Long((long) 1), model.parseLong(TEST_FAMILY, Bytes.toBytes("long_str1")));
         assertEquals(new Long((long) 2), model.parseLong(TEST_FAMILY, Bytes.toBytes("long_str2")));
 
@@ -582,6 +579,7 @@ public class ModelTest {
 
     @Test
     public void parseLongD () {
+        assertNotNull(model);
         assertEquals(new Long((long) 1), model.parseLongD(TEST_FAMILY, Bytes.toBytes("long_str1"), (long) 1));
         assertEquals(new Long((long) 2), model.parseLongD(TEST_FAMILY, NONEXISTENT, (long) 2));
 
@@ -591,7 +589,6 @@ public class ModelTest {
     @Test
     public void parseShort () throws Exception {
         assertNotNull(model);
-
         assertEquals(new Short((short) 1), model.parseShort(TEST_FAMILY, Bytes.toBytes("short_str1")));
         assertEquals(new Short((short) 2), model.parseShort(TEST_FAMILY, Bytes.toBytes("short_str2")));
 
@@ -601,6 +598,7 @@ public class ModelTest {
 
     @Test
     public void parseShortD () {
+        assertNotNull(model);
         assertEquals(new Short((short) 1), model.parseShortD(TEST_FAMILY, Bytes.toBytes("short_str1"), (short) 1));
         assertEquals(new Short((short) 2), model.parseShortD(TEST_FAMILY, NONEXISTENT, (short) 2));
 
@@ -608,7 +606,14 @@ public class ModelTest {
     }
 
     @Test
+    public void setColumnFamily () {
+        assertNotNull(model);
+        assertEquals(model, model.setColumnFamily(TEST_FAMILY));
+    }
+
+    @Test
     public void setResult () {
+        assertNotNull(model);
         assertEquals(model, model.setResult(null));
         assertNull(model.getResult());
         assertEquals(result, model.setResult(result).getResult());
@@ -642,6 +647,7 @@ public class ModelTest {
 
             if (result != null) {
                 model = new Model(result);
+                model.setColumnFamily(TEST_FAMILY);
 
                 return;
             }
