@@ -22,7 +22,7 @@ repositories {
 test {
     dependsOn = [ "testSetup" ]
     testLogging {
-        events "started", "passed"
+        events "passed"
     }
 }
 
