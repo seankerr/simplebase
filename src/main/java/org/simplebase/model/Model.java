@@ -1041,6 +1041,16 @@ public class Model {
     }
 
     /**
+     * Retrieve the row.
+     */
+    public byte[] getRow () {
+        assert result != null
+             : "result == null";
+
+        return result.getRow();
+    }
+
+    /**
      * Retrieve the underlying result.
      */
     public Result getResult () {

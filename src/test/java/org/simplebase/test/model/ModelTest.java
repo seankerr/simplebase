@@ -521,6 +521,18 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
+    public void getRow ()
+    throws Exception {
+        init();
+
+        Result result = getRow(ROW);
+
+        model = new Model(result);
+
+        assertTrue(Arrays.equals(result.getRow(), model.getRow()));
+    }
+
+    @Test
     public void getShortTest ()
     throws Exception {
         init();
