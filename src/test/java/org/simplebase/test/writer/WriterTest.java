@@ -401,6 +401,12 @@ public abstract class WriterTest extends BaseTest {
         switchTable(TABLE1);
         deleteRow(ROW1);
         deleteRow(ROW2);
+        deleteRow(ROW3);
+        switchTable(TABLE2);
+        deleteRow(ROW1);
+        deleteRow(ROW2);
+        deleteRow(ROW3);
+        switchTable(TABLE1);
     }
 
     /**
