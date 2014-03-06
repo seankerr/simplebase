@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import org.junit.BeforeClass;
@@ -78,12 +79,18 @@ public class ModelTest extends BaseTest {
     /** The test row. */
     public static final byte[] ROW = Bytes.toBytes("model_test");
 
+    /** The model. */
+    public Model model;
+
     // -----------------------------------------------------------------------------------------------------------------
     // TESTS
     // -----------------------------------------------------------------------------------------------------------------
 
     @Test
-    public void compareDoubleTest () throws Exception {
+    public void compareDoubleTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.compareDouble(model.COMPARE_EQ, DOUBLE1, DOUBLE1));
         assertFalse(model.compareDouble(model.COMPARE_EQ, DOUBLE1, DOUBLE2));
@@ -94,7 +101,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void compareDoubleSTest () throws Exception {
+    public void compareDoubleSTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.compareDoubleS(model.COMPARE_EQ, DOUBLE_STR1, DOUBLE_STR1));
         assertFalse(model.compareDoubleS(model.COMPARE_EQ, DOUBLE_STR1, DOUBLE_STR2));
@@ -105,7 +115,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void compareFloatTest () throws Exception {
+    public void compareFloatTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.compareFloat(model.COMPARE_EQ, FLOAT1, FLOAT1));
         assertFalse(model.compareFloat(model.COMPARE_EQ, FLOAT1, FLOAT2));
@@ -116,7 +129,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void compareFloatSTest () throws Exception {
+    public void compareFloatSTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.compareFloatS(model.COMPARE_EQ, FLOAT_STR1, FLOAT_STR1));
         assertFalse(model.compareFloatS(model.COMPARE_EQ, FLOAT_STR1, FLOAT_STR2));
@@ -127,7 +143,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void compareIntTest () throws Exception {
+    public void compareIntTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.compareInt(model.COMPARE_EQ, INT1, INT1));
         assertFalse(model.compareInt(model.COMPARE_EQ, INT1, INT2));
@@ -138,7 +157,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void compareIntSTest () throws Exception {
+    public void compareIntSTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.compareIntS(model.COMPARE_EQ, INT_STR1, INT_STR1));
         assertFalse(model.compareIntS(model.COMPARE_EQ, INT_STR1, INT_STR2));
@@ -149,7 +171,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void compareLongTest () throws Exception {
+    public void compareLongTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.compareLong(model.COMPARE_EQ, LONG1, LONG1));
         assertFalse(model.compareLong(model.COMPARE_EQ, LONG1, LONG2));
@@ -160,7 +185,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void compareLongSTest () throws Exception {
+    public void compareLongSTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.compareLongS(model.COMPARE_EQ, LONG_STR1, LONG_STR1));
         assertFalse(model.compareLongS(model.COMPARE_EQ, LONG_STR1, LONG_STR2));
@@ -171,7 +199,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void compareShortTest () throws Exception {
+    public void compareShortTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.compareShort(model.COMPARE_EQ, SHORT1, SHORT1));
         assertFalse(model.compareShort(model.COMPARE_EQ, SHORT1, SHORT2));
@@ -182,7 +213,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void compareShortSTest () throws Exception {
+    public void compareShortSTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.compareShortS(model.COMPARE_EQ, SHORT_STR1, SHORT_STR1));
         assertFalse(model.compareShortS(model.COMPARE_EQ, SHORT_STR1, SHORT_STR2));
@@ -193,13 +227,21 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void constructorTest () throws Exception {
+    public void constructorTest ()
+    throws Exception {
+        init();
+
+        Result result = getRow(ROW);
+
         assertNotNull(new Model());
         assertNotNull(new Model(result));
     }
 
     @Test
-    public void findQualifiersTest () throws Exception {
+    public void findQualifiersTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
 
         List<byte[]> columns = model.findQualifiers("boolean");
@@ -258,7 +300,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getBooleanTest () throws Exception {
+    public void getBooleanTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.getBoolean(BOOLEAN1));
         assertFalse(model.getBoolean(BOOLEAN2));
@@ -268,7 +313,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getBooleanDTest () {
+    public void getBooleanDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.getBooleanD(BOOLEAN1, false));
         assertFalse(model.getBooleanD(NONEXISTENT, false));
@@ -276,7 +324,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getBytesTest () throws Exception {
+    public void getBytesTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(1, Bytes.toInt(model.getBytes(INT1)));
         assertEquals(2, Bytes.toInt(model.getBytes(INT2)));
@@ -286,7 +337,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getBytesDTest () {
+    public void getBytesDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(1, Bytes.toInt(model.getBytesD(INT1, Bytes.toBytes(1))));
         assertEquals(2, Bytes.toInt(model.getBytesD(NONEXISTENT, Bytes.toBytes(2))));
@@ -294,14 +348,20 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getColumnFamilyTest () {
+    public void getColumnFamilyTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(model, model.setColumnFamily(FAMILY1));
         assertTrue(Arrays.equals(FAMILY1, model.getColumnFamily()));
     }
 
     @Test
-    public void getDoubleTest () throws Exception {
+    public void getDoubleTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Double(1.0), model.getDouble(DOUBLE1));
         assertEquals(new Double(2.0), model.getDouble(DOUBLE2));
@@ -311,7 +371,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getDoubleDTest () throws Exception {
+    public void getDoubleDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Double(1.0), model.getDoubleD(DOUBLE1, (double) 1.0));
         assertEquals(new Double(2.0), model.getDoubleD(NONEXISTENT, (double) 2.0));
@@ -319,7 +382,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getFamiliesTest () {
+    public void getFamiliesTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
 
         List<byte[]> families = model.getFamilies();
@@ -330,7 +396,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getFloatTest () throws Exception {
+    public void getFloatTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Float(1.0), model.getFloat(FLOAT1));
         assertEquals(new Float(2.0), model.getFloat(FLOAT2));
@@ -340,7 +409,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getFloatDTest () {
+    public void getFloatDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Float(1.0), model.getFloatD(FLOAT1, (float) 1.0));
         assertEquals(new Float(2.0), model.getFloatD(NONEXISTENT, (float) 2.0));
@@ -348,7 +420,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getIntTest () throws Exception {
+    public void getIntTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Integer(1), model.getInt(INT1));
         assertEquals(new Integer(2), model.getInt(INT2));
@@ -358,7 +433,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getIntDTest () {
+    public void getIntDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Integer(1), model.getIntD(INT1, (int) 1));
         assertEquals(new Integer(2), model.getIntD(NONEXISTENT, (int) 2));
@@ -366,7 +444,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getLongTest () throws Exception {
+    public void getLongTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Long((long) 1), model.getLong(LONG1));
         assertEquals(new Long((long) 2), model.getLong(LONG2));
@@ -376,7 +457,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getLongDTest () {
+    public void getLongDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Long((long) 1), model.getLongD(LONG1, (long) 1));
         assertEquals(new Long((long) 2), model.getLongD(NONEXISTENT, (long) 2));
@@ -384,7 +468,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getQualifiersTest () {
+    public void getQualifiersTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
 
         List<byte[]> qualifiers = model.getQualifiers(FAMILY1);
@@ -420,14 +507,24 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getResultTest () throws Exception {
-        assertNotNull(model);
-        assertEquals(result, model.getResult());
-        assertNotNull(model.getResult());
+    public void getResultTest ()
+    throws Exception {
+        init();
+
+        Result result = getRow(ROW);
+
+        model = new Model(result);
+
+        assertEquals(model, model.setResult(null));
+        assertNull(model.getResult());
+        assertEquals(result, model.setResult(result).getResult());
     }
 
     @Test
-    public void getShortTest () throws Exception {
+    public void getShortTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Short((short) 1), model.getShort(SHORT1));
         assertEquals(new Short((short) 2), model.getShort(SHORT2));
@@ -437,7 +534,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getShortDTest () {
+    public void getShortDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Short((short) 1), model.getShortD(SHORT1, (short) 1));
         assertEquals(new Short((short) 2), model.getShortD(NONEXISTENT, (short) 2));
@@ -445,7 +545,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getStringTest () throws Exception {
+    public void getStringTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals("simplebase", model.getString(STRING1));
         assertEquals("rocks", model.getString(STRING2));
@@ -455,7 +558,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void getStringDTest () {
+    public void getStringDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals("simplebase", model.getStringD(STRING1, "simplebase"));
         assertEquals("rocks", model.getStringD(NONEXISTENT, "rocks"));
@@ -463,7 +569,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void hasColumnTest () {
+    public void hasColumnTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.hasColumn(BOOLEAN1));
         assertTrue(model.hasColumn(BOOLEAN2));
@@ -495,20 +604,29 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void hasFamilyTest () {
+    public void hasFamilyTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.hasFamily(FAMILY1));
         assertFalse(model.hasFamily(NONEXISTENT));
     }
 
     @Test
-    public void hasResultTest () {
+    public void hasResultTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.hasResult());
     }
 
     @Test
-    public void isEqualTest () throws Exception {
+    public void isEqualTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.isEqual(BOOLEAN1, BOOLEAN1));
         assertTrue(model.isEqual(DOUBLE1, DOUBLE1));
@@ -528,7 +646,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void parseBooleanTest () throws Exception {
+    public void parseBooleanTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.parseBoolean(BOOLEAN_STR1));
         assertFalse(model.parseBoolean(BOOLEAN_STR2));
@@ -538,7 +659,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void parseBooleanDTest () {
+    public void parseBooleanDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertTrue(model.parseBooleanD(BOOLEAN_STR1, false));
         assertFalse(model.parseBooleanD(NONEXISTENT, false));
@@ -547,7 +671,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void parseDoubleTest () throws Exception {
+    public void parseDoubleTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Double(1.0), model.parseDouble(DOUBLE_STR1));
         assertEquals(new Double(2.0), model.parseDouble(DOUBLE_STR2));
@@ -557,7 +684,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void parseDoubleDTest () {
+    public void parseDoubleDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Double(1.0), model.parseDoubleD(DOUBLE_STR1, (double) 1.0));
         assertEquals(new Double(2.0), model.parseDoubleD(NONEXISTENT, (double) 2.0));
@@ -566,7 +696,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void parseIntTest () throws Exception {
+    public void parseIntTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Integer(1), model.parseInt(INT_STR1));
         assertEquals(new Integer(2), model.parseInt(INT_STR2));
@@ -576,7 +709,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void parseIntDTest () {
+    public void parseIntDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Integer(1), model.parseIntD(INT_STR1, (int) 1));
         assertEquals(new Integer(2), model.parseIntD(NONEXISTENT, (int) 2));
@@ -585,7 +721,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void parseLongTest () throws Exception {
+    public void parseLongTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Long((long) 1), model.parseLong(LONG_STR1));
         assertEquals(new Long((long) 2), model.parseLong(LONG_STR2));
@@ -595,7 +734,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void parseLongDTest () {
+    public void parseLongDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Long((long) 1), model.parseLongD(LONG_STR1, (long) 1));
         assertEquals(new Long((long) 2), model.parseLongD(NONEXISTENT, (long) 2));
@@ -604,7 +746,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void parseShortTest () throws Exception {
+    public void parseShortTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Short((short) 1), model.parseShort(SHORT_STR1));
         assertEquals(new Short((short) 2), model.parseShort(SHORT_STR2));
@@ -614,7 +759,10 @@ public class ModelTest extends BaseTest {
     }
 
     @Test
-    public void parseShortDTest () {
+    public void parseShortDTest ()
+    throws Exception {
+        init();
+
         assertNotNull(model);
         assertEquals(new Short((short) 1), model.parseShortD(SHORT_STR1, (short) 1));
         assertEquals(new Short((short) 2), model.parseShortD(NONEXISTENT, (short) 2));
@@ -622,26 +770,16 @@ public class ModelTest extends BaseTest {
         assertNull(model.parseShortD(NONEXISTENT, null));
     }
 
-    @Test
-    public void setResultTest () {
-        assertNotNull(model);
-        assertEquals(model, model.setResult(null));
-        assertNull(model.getResult());
-        assertEquals(result, model.setResult(result).getResult());
-    }
-
     // -----------------------------------------------------------------------------------------------------------------
     // HELPERS
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Setup the test environment.
+     * Initialize an individual test.
      */
-    @BeforeClass
-    public static void setup ()
+    public void init ()
     throws Exception {
-        BaseTest.setup();
-
+        switchTable(TABLE1);
         deleteRow(ROW);
 
         Put put = new Put(ROW);
@@ -673,12 +811,33 @@ public class ModelTest extends BaseTest {
         put.add(FAMILY1, SHORT_STR1,   Bytes.toBytes("1"));
         put.add(FAMILY1, SHORT_STR2,   Bytes.toBytes("2"));
 
-        table.put(put);
-        table.flushCommits();
+        writePut(put);
+        flushTable();
+        switchModel(ROW);
+    }
 
-        model = getModel(ROW);
-        model.setColumnFamily(FAMILY1);
+    /**
+     * Setup the test environment.
+     */
+    @BeforeClass
+    public static void setup ()
+    throws Exception {
+        BaseTest.setup();
+    }
 
-        result = model.getResult();
+    /**
+     * Switch the currently active model.
+     *
+     * @param row The row.
+     */
+    public void switchModel (byte[] row)
+    throws Exception {
+        Result result = getRow(row);
+
+        if (result == null) {
+            throw new Exception("Nonexistent row: " + Bytes.toString(row));
+        }
+
+        model = new Model(result).setColumnFamily(FAMILY1);
     }
 }

@@ -16,11 +16,13 @@
 
 package org.simplebase.test.writer;
 
+import org.simplebase.model.Model;
 import org.simplebase.test.BaseTest;
-import org.simplebase.writer.TableWriter;
+import org.simplebase.writer.Writer;
 
 import java.util.Arrays;
 
+import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import org.junit.Test;
@@ -39,8 +41,15 @@ public abstract class WriterTest extends BaseTest {
     public static final byte[] QUALIFIER = Bytes.toBytes("test");
 
     /** The test rows. */
-    public static final byte[] ROW1 = Bytes.toBytes("table_writer_test1");
-    public static final byte[] ROW2 = Bytes.toBytes("table_writer_test2");
+    public static final byte[] ROW1 = Bytes.toBytes("writer_test1");
+    public static final byte[] ROW2 = Bytes.toBytes("writer_test2");
+    public static final byte[] ROW3 = Bytes.toBytes("writer_test3");
+
+    /** The model. */
+    public Model model;
+
+    /** The writer. */
+    public Writer writer;
 
     // -----------------------------------------------------------------------------------------------------------------
     // TESTS
@@ -62,21 +71,19 @@ public abstract class WriterTest extends BaseTest {
         init();
 
         // true
-        deleteRow(ROW1);
-
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
         assertNotNull(writer.getPut());
         assertEquals(writer, writer.writeBoolean(QUALIFIER, true));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue(model.getBoolean(FAMILY1, QUALIFIER));
+        assertTrue(model.getBoolean(QUALIFIER));
 
         // false
         deleteRow(ROW1);
@@ -87,13 +94,13 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeBoolean(QUALIFIER, false));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertFalse(model.getBoolean(FAMILY1, QUALIFIER));
+        assertFalse(model.getBoolean(QUALIFIER));
     }
 
     @Test
@@ -102,21 +109,19 @@ public abstract class WriterTest extends BaseTest {
         init();
 
         // true
-        deleteRow(ROW1);
-
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
         assertNotNull(writer.getPut());
         assertEquals(writer, writer.writeBooleanS(QUALIFIER, true));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue(model.parseBoolean(FAMILY1, QUALIFIER));
+        assertTrue(model.parseBoolean(QUALIFIER));
 
         // false
         deleteRow(ROW1);
@@ -127,20 +132,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeBooleanS(QUALIFIER, false));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertFalse(model.parseBoolean(FAMILY1, QUALIFIER));
+        assertFalse(model.parseBoolean(QUALIFIER));
     }
 
     @Test
     public void writeBytesTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -148,20 +152,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeBytes(QUALIFIER, QUALIFIER));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue(Arrays.equals(QUALIFIER, model.getBytes(FAMILY1, QUALIFIER)));
+        assertTrue(Arrays.equals(QUALIFIER, model.getBytes(QUALIFIER)));
     }
 
     @Test
     public void writeDoubleTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -169,20 +172,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeDouble(QUALIFIER, (double) 3.14));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue((double) 3.14 == model.getDouble(FAMILY1, QUALIFIER));
+        assertTrue((double) 3.14 == model.getDouble(QUALIFIER));
     }
 
     @Test
     public void writeDoubleSTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -190,20 +192,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeDoubleS(QUALIFIER, (double) 3.14));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue((double) 3.14 == model.parseDouble(FAMILY1, QUALIFIER));
+        assertTrue((double) 3.14 == model.parseDouble(QUALIFIER));
     }
 
     @Test
     public void writeFloatTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -211,20 +212,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeFloat(QUALIFIER, (float) 3.14));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue((float) 3.14 == model.getFloat(FAMILY1, QUALIFIER));
+        assertTrue((float) 3.14 == model.getFloat(QUALIFIER));
     }
 
     @Test
     public void writeFloatSTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -232,20 +232,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeFloatS(QUALIFIER, (float) 3.14));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue((float) 3.14 == model.parseFloat(FAMILY1, QUALIFIER));
+        assertTrue((float) 3.14 == model.parseFloat(QUALIFIER));
     }
 
     @Test
     public void writeIntTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -253,20 +252,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeInt(QUALIFIER, (int) 1));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue((int) 1 == model.getInt(FAMILY1, QUALIFIER));
+        assertTrue((int) 1 == model.getInt(QUALIFIER));
     }
 
     @Test
     public void writeIntSTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -274,20 +272,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeIntS(QUALIFIER, (int) 1));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue((int) 1 == model.parseInt(FAMILY1, QUALIFIER));
+        assertTrue((int) 1 == model.parseInt(QUALIFIER));
     }
 
     @Test
     public void writeLongTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -295,20 +292,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeLong(QUALIFIER, (long) 1));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue((long) 1 == model.getLong(FAMILY1, QUALIFIER));
+        assertTrue((long) 1 == model.getLong(QUALIFIER));
     }
 
     @Test
     public void writeLongSTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -316,20 +312,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeLongS(QUALIFIER, (long) 1));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue((long) 1 == model.parseLong(FAMILY1, QUALIFIER));
+        assertTrue((long) 1 == model.parseLong(QUALIFIER));
     }
 
     @Test
     public void writeShortTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -337,20 +332,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeShort(QUALIFIER, (short) 1));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue((short) 1 == model.getShort(FAMILY1, QUALIFIER));
+        assertTrue((short) 1 == model.getShort(QUALIFIER));
     }
 
     @Test
     public void writeShortSTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -358,20 +352,19 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeShortS(QUALIFIER, (short) 1));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertTrue((short) 1 == model.parseShort(FAMILY1, QUALIFIER));
+        assertTrue((short) 1 == model.parseShort(QUALIFIER));
     }
 
     @Test
     public void writeStringTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertNull(writer.getPut());
         assertEquals(writer, writer.setRow(ROW1));
@@ -379,13 +372,13 @@ public abstract class WriterTest extends BaseTest {
         assertEquals(writer, writer.writeString(QUALIFIER, "simplebase"));
         assertFalse(hasRow(ROW1));
 
-        writer.flush();
+        flushWriter();
 
         assertNull(writer.getPut());
 
-        model = getModel(ROW1).setColumnFamily(FAMILY1);
+        switchModel(ROW1);
 
-        assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
+        assertEquals("simplebase", model.getString(QUALIFIER));
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -393,28 +386,45 @@ public abstract class WriterTest extends BaseTest {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Initialize an individual test.
+     * Flush the currently active writer.
      */
-    public static void init ()
+    public void flushWriter ()
     throws Exception {
-        if (writer != null) {
-            writer.close();
-
-            writer = null;
-        }
-
-        writer = new TableWriter(config);
-        writer.setColumnFamily(FAMILY1);
-        writer.setTableName(Bytes.toString(TABLE1));
-
-        switchTable(TABLE1);
+        writer.flush();
     }
 
     /**
-     * Setup the test environment.
+     * Initialize an individual test.
      */
-    public static void setup ()
+    public void init ()
     throws Exception {
-        BaseTest.setup();
+        switchTable(TABLE1);
+        deleteRow(ROW1);
+        deleteRow(ROW2);
+    }
+
+    /**
+     * Set the writer.
+     *
+     * @param writer The writer.
+     */
+    public void setWriter (Writer writer) {
+        this.writer = writer;
+    }
+
+    /**
+     * Switch the currently active model.
+     *
+     * @param row The row.
+     */
+    public void switchModel (byte[] row)
+    throws Exception {
+        Result result = getRow(row);
+
+        if (result == null) {
+            throw new Exception("Nonexistent row: " + Bytes.toString(row));
+        }
+
+        model = new Model(result).setColumnFamily(FAMILY1);
     }
 }

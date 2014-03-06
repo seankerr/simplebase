@@ -16,6 +16,7 @@
 
 package org.simplebase.test.writer;
 
+import org.simplebase.test.BaseTest;
 import org.simplebase.writer.TableWriter;
 
 import java.util.Arrays;
@@ -51,7 +52,7 @@ public class TableWriterTest extends WriterTest {
 
         assertTrue(hasRow(ROW1));
 
-        model = getModel(ROW1);
+        switchModel(ROW1);
 
         assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
     }
@@ -70,7 +71,7 @@ public class TableWriterTest extends WriterTest {
 
         assertTrue(hasRow(ROW1));
 
-        model = getModel(ROW1);
+        switchModel(ROW1);
 
         assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
     }
@@ -112,17 +113,17 @@ public class TableWriterTest extends WriterTest {
 
         assertTrue(hasRow(ROW2));
 
-        model = getModel(ROW1);
+        switchModel(ROW1);
 
         assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
 
-        model = getModel(ROW2);
+        switchModel(ROW2);
 
         assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
     }
 
     @Test
-    public void switchTableNameTest ()
+    public void setTableNameTest ()
     throws Exception {
         init();
 
@@ -173,11 +174,30 @@ public class TableWriterTest extends WriterTest {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
+     * Initialize an individual test.
+     */
+    public void init ()
+    throws Exception {
+        super.init();
+
+        if (writer != null) {
+            writer.close();
+
+            writer = null;
+        }
+
+        setWriter(new TableWriter(config).setColumnFamily(FAMILY1)
+                                         .setTableName(Bytes.toString(TABLE1)));
+
+        switchTable(TABLE1);
+    }
+
+    /**
      * Setup the test environment.
      */
     @BeforeClass
     public static void setup ()
     throws Exception {
-        WriterTest.setup();
+        BaseTest.setup();
     }
 }

@@ -16,15 +16,13 @@
 
 package org.simplebase.test;
 
-import org.simplebase.model.Model;
-import org.simplebase.writer.Writer;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.HTableInterface;
+import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 
@@ -49,17 +47,8 @@ public abstract class BaseTest {
     /** The configuration. */
     public static Configuration config;
 
-    /** The model. */
-    public static Model model;
-
-    /** The result. */
-    public static Result result;
-
     /** The test table instance. */
-    public static HTableInterface table;
-
-    /** The writer. */
-    public static Writer writer;
+    public HTableInterface table;
 
     /** The expected exception. */
     @Rule
@@ -70,26 +59,18 @@ public abstract class BaseTest {
      *
      * @param row The row.
      */
-    public static void deleteRow (byte[] row)
+    public void deleteRow (byte[] row)
     throws Exception {
         table.delete(new Delete(row));
         table.flushCommits();
     }
 
     /**
-     * Retrieve a model instance from the currently active table.
-     *
-     * @param row The row.
+     * Flush the currently active table.
      */
-    public static Model getModel (byte[] row)
+    public void flushTable ()
     throws Exception {
-        Result result = getRow(row);
-
-        if (result == null) {
-            throw new Exception("Nonexistent row: " + Bytes.toString(row));
-        }
-
-        return new Model(result);
+        table.flushCommits();
     }
 
     /**
@@ -97,7 +78,7 @@ public abstract class BaseTest {
      *
      * @param row The row.
      */
-    public static Result getRow (byte[] row)
+    public Result getRow (byte[] row)
     throws Exception {
         return table.get(new Get(row));
     }
@@ -107,7 +88,7 @@ public abstract class BaseTest {
      *
      * @param table The table.
      */
-    public static HTableInterface getTable (byte[] table)
+    public HTableInterface getTable (byte[] table)
     throws Exception {
         return new HTable(config, table);
     }
@@ -117,11 +98,18 @@ public abstract class BaseTest {
      *
      * @param row The row.
      */
-    public static boolean hasRow (byte[] row)
+    public boolean hasRow (byte[] row)
     throws Exception {
         Result result = getRow(row);
 
         return result != null && !result.isEmpty();
+    }
+
+    /**
+     * Initialize an individual test.
+     */
+    public void init ()
+    throws Exception {
     }
 
     /**
@@ -146,18 +134,6 @@ public abstract class BaseTest {
                 config.set("hbase.zookeeper.property.clientPort", System.getenv("ZK_PORT"));
             }
         }
-
-        switchTable(TABLE1);
-    }
-
-    /**
-     * Switch the currently active model.
-     *
-     * @param row The row.
-     */
-    public static void switchModel (byte[] row)
-    throws Exception {
-        model = getModel(row);
     }
 
     /**
@@ -165,12 +141,22 @@ public abstract class BaseTest {
      *
      * @param table The table.
      */
-    public static void switchTable (byte[] table)
+    public void switchTable (byte[] table)
     throws Exception {
-        if (BaseTest.table != null) {
-            BaseTest.table.close();
+        if (this.table != null) {
+            this.table.close();
         }
 
-        BaseTest.table = getTable(table);
+        this.table = getTable(table);
+    }
+
+    /**
+     * Write a put to the currently active table.
+     *
+     * @param put The put.
+     */
+    public void writePut(Put put)
+    throws Exception {
+        table.put(put);
     }
 }
