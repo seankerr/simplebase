@@ -39,6 +39,88 @@ public class BufferedTableWriterTest extends TableWriterTest {
     // -----------------------------------------------------------------------------------------------------------------
 
     @Test
+    public void closeTest ()
+    throws Exception {
+        init();
+
+        assertFalse(hasRow(ROW1));
+        assertFalse(hasRow(ROW2));
+        assertFalse(hasRow(ROW3));
+
+        writer.setRow(ROW1);
+        writer.writeString(QUALIFIER, "simplebase");
+        writer.setRow(ROW2);
+        writer.writeString(QUALIFIER, "simplebase");
+        writer.setRow(ROW3);
+        writer.writeString(QUALIFIER, "simplebase");
+        writer.setRow(ROW1);
+        writer.writeString(QUALIFIER, "simplebase");
+
+        assertFalse(hasRow(ROW1));
+        assertFalse(hasRow(ROW2));
+        assertFalse(hasRow(ROW3));
+
+        writer.close();
+
+        assertTrue(hasRow(ROW1));
+        assertTrue(hasRow(ROW2));
+        assertTrue(hasRow(ROW3));
+
+        switchModel(ROW1);
+
+        assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
+
+        switchModel(ROW2);
+
+        assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
+
+        switchModel(ROW3);
+
+        assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
+    }
+
+    @Test
+    public void flushTest ()
+    throws Exception {
+        init();
+
+        assertFalse(hasRow(ROW1));
+        assertFalse(hasRow(ROW2));
+        assertFalse(hasRow(ROW3));
+
+        writer.setRow(ROW1);
+        writer.writeString(QUALIFIER, "simplebase");
+        writer.setRow(ROW2);
+        writer.writeString(QUALIFIER, "simplebase");
+        writer.setRow(ROW3);
+        writer.writeString(QUALIFIER, "simplebase");
+        writer.setRow(ROW1);
+        writer.writeString(QUALIFIER, "simplebase");
+
+        assertFalse(hasRow(ROW1));
+        assertFalse(hasRow(ROW2));
+        assertFalse(hasRow(ROW3));
+
+        writer.flush();
+
+        assertTrue(hasRow(ROW1));
+        assertTrue(hasRow(ROW2));
+        assertTrue(hasRow(ROW3));
+
+        switchModel(ROW1);
+
+        assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
+
+        switchModel(ROW2);
+
+        assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
+
+        switchModel(ROW3);
+
+        assertEquals("simplebase", model.getString(FAMILY1, QUALIFIER));
+    }
+
+    @Test
     public void getPutBufferSize ()
     throws Exception {
         init();
@@ -119,6 +201,47 @@ public class BufferedTableWriterTest extends TableWriterTest {
         switchModel(ROW2);
 
         assertEquals("simplebase", model.getString(QUALIFIER));
+    }
+
+    @Test
+    public void setTableNameTest ()
+    throws Exception {
+        init();
+
+        assertFalse(hasRow(ROW1));
+        assertFalse(hasRow(ROW2));
+
+        switchTable(TABLE2);
+
+        assertFalse(hasRow(ROW1));
+        assertFalse(hasRow(ROW2));
+
+        switchTable(TABLE1);
+
+        writer.setTableName(Bytes.toString(TABLE1));
+        writer.setRow(ROW1);
+
+        assertTrue(Arrays.equals(ROW1, writer.getPut().getRow()));
+
+        writer.writeString(QUALIFIER, "simplebase");
+        writer.setRow(ROW2);
+
+        assertTrue(Arrays.equals(ROW2, writer.getPut().getRow()));
+
+        writer.writeString(QUALIFIER, "simplebase");
+
+        assertFalse(hasRow(ROW1));
+        assertFalse(hasRow(ROW2));
+
+        writer.setTableName(Bytes.toString(TABLE1));
+
+        assertFalse(hasRow(ROW1));
+        assertFalse(hasRow(ROW2));
+
+        writer.setTableName(Bytes.toString(TABLE2));
+
+        assertTrue(hasRow(ROW1));
+        assertTrue(hasRow(ROW2));
     }
 
     // -----------------------------------------------------------------------------------------------------------------
