@@ -42,7 +42,6 @@ public class TableWriterTest extends WriterTest {
     public void closeTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertFalse(hasRow(ROW1));
 
@@ -61,7 +60,6 @@ public class TableWriterTest extends WriterTest {
     public void flushTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
 
         assertFalse(hasRow(ROW1));
 
@@ -90,8 +88,6 @@ public class TableWriterTest extends WriterTest {
     public void setRowTest ()
     throws Exception {
         init();
-        deleteRow(ROW1);
-        deleteRow(ROW2);
 
         assertFalse(hasRow(ROW1));
 
@@ -126,9 +122,6 @@ public class TableWriterTest extends WriterTest {
     public void setTableNameTest ()
     throws Exception {
         init();
-
-        deleteRow(ROW1);
-        deleteRow(ROW2);
 
         assertFalse(hasRow(ROW1));
         assertFalse(hasRow(ROW2));
