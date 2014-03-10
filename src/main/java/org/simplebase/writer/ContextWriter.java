@@ -71,10 +71,7 @@ public class ContextWriter extends Writer {
     public void flush ()
     throws InterruptedException, IOException {
         if (getPut() != null && !getPut().isEmpty()) {
-            if (getContext() != null) {
-                getContext().setStatus("Flushing put");
-            }
-
+            getContext().setStatus("Flushing put");
             getContext().write(new ImmutableBytesWritable(Bytes.toBytes(table)), getPut());
 
             setPut(null);
@@ -109,9 +106,7 @@ public class ContextWriter extends Writer {
         if (getPut() == null || !Arrays.equals(getRow(), row)) {
             flush();
 
-            if (getContext() != null) {
-                getContext().setStatus("Switching row '" + Bytes.toString(row) + "'");
-            }
+            getContext().setStatus("Switching row '" + Bytes.toString(row) + "'");
 
             setPut(new Put(row));
         }
@@ -131,9 +126,7 @@ public class ContextWriter extends Writer {
         if (this.table == null || !this.table.equals(table)) {
             flush();
 
-            if (getContext() != null) {
-                getContext().setStatus("Switching table '" + table + "'");
-            }
+            getContext().setStatus("Switching table '" + table + "'");
 
             this.table = table;
         }

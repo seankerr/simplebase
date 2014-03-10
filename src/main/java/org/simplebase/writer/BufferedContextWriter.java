@@ -65,9 +65,7 @@ public class BufferedContextWriter extends ContextWriter {
     @Override
     public void flush ()
     throws InterruptedException, IOException {
-        if (getContext() != null) {
-            getContext().setStatus("Flushing " + puts.size() + " puts");
-        }
+        getContext().setStatus("Flushing " + puts.size() + " puts");
 
         ImmutableBytesWritable tableBytes = new ImmutableBytesWritable(Bytes.toBytes(getTableName()));
 
@@ -116,9 +114,7 @@ public class BufferedContextWriter extends ContextWriter {
                 flush();
             }
 
-            if (getContext() != null) {
-                getContext().setStatus("Switching row '" + Bytes.toString(row) + "'");
-            }
+            getContext().setStatus("Switching row '" + Bytes.toString(row) + "'");
 
             if (!puts.containsKey(row)) {
                 puts.put(row, new Put(row));
