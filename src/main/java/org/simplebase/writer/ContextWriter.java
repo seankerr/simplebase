@@ -40,9 +40,6 @@ import org.apache.hadoop.mapreduce.TaskInputOutputContext;
  * @author Sean Kerr [sean@code-box.org]
  */
 public class ContextWriter extends Writer {
-    /** The context. */
-    private TaskInputOutputContext context;
-
     /** The currenty active table. */
     private String table;
 
@@ -55,7 +52,7 @@ public class ContextWriter extends Writer {
         assert context != null
              : "context == null";
 
-        this.context = context;
+        setContext(context);
     }
 
     /**
@@ -74,7 +71,11 @@ public class ContextWriter extends Writer {
     public void flush ()
     throws InterruptedException, IOException {
         if (getPut() != null && !getPut().isEmpty()) {
-            context.write(new ImmutableBytesWritable(Bytes.toBytes(table)), getPut());
+            if (getContext() != null) {
+                getContext().setStatus("Flushing put");
+            }
+
+            getContext().write(new ImmutableBytesWritable(Bytes.toBytes(table)), getPut());
 
             setPut(null);
         }
@@ -85,17 +86,7 @@ public class ContextWriter extends Writer {
      */
     @Override
     public Configuration getConfiguration () {
-        assert context != null
-             : "context == null";
-
-        return context.getConfiguration();
-    }
-
-    /**
-     * Retrieve the context.
-     */
-    public TaskInputOutputContext getContext () {
-        return context;
+        return getContext().getConfiguration();
     }
 
     /**
@@ -104,20 +95,6 @@ public class ContextWriter extends Writer {
     @Override
     public String getTableName () {
         return table;
-    }
-
-    /**
-     * Set the context.
-     *
-     * @param context The context.
-     */
-    public ContextWriter setContext (TaskInputOutputContext context) {
-        assert context != null
-             : "context == null";
-
-        this.context = context;
-
-        return this;
     }
 
     /**
@@ -131,6 +108,10 @@ public class ContextWriter extends Writer {
 
         if (getPut() == null || !Arrays.equals(getRow(), row)) {
             flush();
+
+            if (getContext() != null) {
+                getContext().setStatus("Switching row '" + Bytes.toString(row) + "'");
+            }
 
             setPut(new Put(row));
         }
@@ -149,6 +130,10 @@ public class ContextWriter extends Writer {
 
         if (this.table == null || !this.table.equals(table)) {
             flush();
+
+            if (getContext() != null) {
+                getContext().setStatus("Switching table '" + table + "'");
+            }
 
             this.table = table;
         }

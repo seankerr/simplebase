@@ -85,6 +85,10 @@ public class TableWriter extends Writer {
     throws InterruptedException, IOException {
         flush();
 
+        if (getContext() != null) {
+            getContext().setStatus("Closing tables");
+        }
+
         for (HTableInterface table : tables.values()) {
             table.flushCommits();
             table.close();
@@ -100,6 +104,10 @@ public class TableWriter extends Writer {
     public void flush ()
     throws InterruptedException, IOException {
         if (getPut() != null && !getPut().isEmpty()) {
+            if (getContext() != null) {
+                getContext().setStatus("Flushing put");
+            }
+
             table.put(getPut());
 
             setPut(null);
@@ -169,6 +177,10 @@ public class TableWriter extends Writer {
         if (getPut() == null || !Arrays.equals(getRow(), row)) {
             flush();
 
+            if (getContext() != null) {
+                getContext().setStatus("Switching row '" + Bytes.toString(row) + "'");
+            }
+
             setPut(new Put(row));
         }
 
@@ -185,9 +197,17 @@ public class TableWriter extends Writer {
              : "table == null";
 
         if (this.table == null || !Arrays.equals(this.table.getTableName(), Bytes.toBytes(table))) {
+            if (getContext() != null) {
+                getContext().setStatus("Switching table '" + table + "'");
+            }
+
             flush();
 
             if (!tables.containsKey(table)) {
+                if (getContext() != null) {
+                    getContext().setStatus("Opening table '" + table + "'");
+                }
+
                 HTableInterface _table = new HTable(getConfiguration(), table);
 
                 _table.setWriteBufferSize(getTableWriteBufferSize());

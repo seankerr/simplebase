@@ -65,9 +65,15 @@ public class BufferedContextWriter extends ContextWriter {
     @Override
     public void flush ()
     throws InterruptedException, IOException {
+        if (getContext() != null) {
+            getContext().setStatus("Flushing " + puts.size() + " puts");
+        }
+
+        ImmutableBytesWritable tableBytes = new ImmutableBytesWritable(Bytes.toBytes(getTableName()));
+
         for (Put put : puts.values()) {
             if (!put.isEmpty()) {
-                getContext().write(new ImmutableBytesWritable(Bytes.toBytes(getTableName())), put);
+                getContext().write(tableBytes, put);
             }
         }
 
@@ -108,6 +114,10 @@ public class BufferedContextWriter extends ContextWriter {
         if (getPut() == null || !Arrays.equals(getRow(), row)) {
             if (puts.size() >= getPutBufferSize()) {
                 flush();
+            }
+
+            if (getContext() != null) {
+                getContext().setStatus("Switching row '" + Bytes.toString(row) + "'");
             }
 
             if (!puts.containsKey(row)) {

@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.util.Bytes;
 
 /**
  * {@link BufferedTableWriter} writes <em>Put</em> operations directly to table.
@@ -43,7 +43,7 @@ import org.apache.hadoop.hbase.client.Put;
  */
 public class BufferedTableWriter extends TableWriter {
     /** The default put buffer size. */
-    public static final int PUT_BUFFER_SIZE = 10000;
+    public static final int PUT_BUFFER_SIZE = 50000;
 
     /** The put buffer size. */
     private int putBufferSize = PUT_BUFFER_SIZE;
@@ -74,15 +74,15 @@ public class BufferedTableWriter extends TableWriter {
     public void flush ()
     throws InterruptedException, IOException {
         if (getTable() != null) {
-            List<Put> _puts = new ArrayList(puts.size());
-
-            for (Put put : puts.values()) {
-                if (!put.isEmpty()) {
-                    _puts.add(put);
-                }
+            if (getContext() != null) {
+                getContext().setStatus("Flushing " + puts.size() + " puts");
             }
 
-            getTable().put(_puts);
+            if (getPut().isEmpty()) {
+                puts.remove(getRow());
+            }
+
+            getTable().put(new ArrayList(puts.values()));
 
             puts.clear();
             setPut(null);
@@ -120,8 +120,16 @@ public class BufferedTableWriter extends TableWriter {
              : "row == null";
 
         if (getPut() == null || !Arrays.equals(getRow(), row)) {
+            if (getPut() != null && getPut().isEmpty()) {
+                puts.remove(getRow());
+            }
+
             if (puts.size() >= getPutBufferSize()) {
                 flush();
+            }
+
+            if (getContext() != null) {
+                getContext().setStatus("Switching row '" + Bytes.toString(row) + "'");
             }
 
             if (!puts.containsKey(row)) {
