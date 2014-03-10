@@ -21,6 +21,7 @@ import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.mapreduce.TaskInputOutputContext;
 
 /**
  * {@link Writer} is an easy-to-use interface for writing HBase rows.
@@ -39,6 +40,9 @@ import org.apache.hadoop.hbase.util.Bytes;
  * @author Sean Kerr [sean@code-box.org]
  */
 public abstract class Writer {
+    /** The context. */
+    private TaskInputOutputContext context;
+
     /** The default column family. */
     private byte[] family;
 
@@ -88,6 +92,13 @@ public abstract class Writer {
     public abstract Configuration getConfiguration ();
 
     /**
+     * Retrieve the context.
+     */
+    public TaskInputOutputContext getContext () {
+        return context;
+    }
+
+    /**
      * Retrieve the currently active <em>Put</em> operation.
      */
     public Put getPut () {
@@ -116,6 +127,20 @@ public abstract class Writer {
      */
     public Writer setColumnFamily (byte[] family) {
         this.family = family;
+
+        return this;
+    }
+
+    /**
+     * Set the context.
+     *
+     * @param context The context.
+     */
+    public Writer setContext (TaskInputOutputContext context) {
+        assert context != null
+             : "context == null";
+
+        this.context = context;
 
         return this;
     }
